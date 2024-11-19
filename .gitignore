@@ -1,2 +1,8 @@
 # Virtual enviroment
 venv/
+
+# Database 
+db.sqlite3
+
+# Python caching
+__pycache__ 
