@@ -3,9 +3,21 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
+
+# Secret Key Configuration
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
-DEBUG = os.environ.get('DJANGO_DEBUG')
-ALLOWED_HOSTS = ['.herokuapp.com']
+if not SECRET_KEY:
+    raise ValueError("SECRET_KEY must be set in environment variables")
+
+# Debug Mode Configuration
+DEBUG = os.environ.get('DJANGO_DEBUG', 'False').lower() == 'true'
+print(f"DEBUG MODE: {DEBUG}")
+
+ALLOWED_HOSTS = ['.herokuapp.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -83,7 +95,6 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 # Internationalization
-# https://docs.djangoproject.com/en/5.1/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
 
@@ -95,7 +106,6 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
