@@ -10,3 +10,5 @@ __pycache__
 # collectstatic generated directory
 /staticfiles/
 
+# Secret environment variables
+.env
