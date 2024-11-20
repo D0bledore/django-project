@@ -1,0 +1,20 @@
+:root {
+    --primary-color: #ff4d4d;
+    --secondary-color: #ff6666;
+    --accent-color: #ff1a1a;
+    --background-color: #ffe6e6;
+    --text-color: #660000;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+}
+
+.logo-img {
+    width: 100px;
+    height: 100px;
+}
