@@ -1,0 +1,75 @@
+:root {
+    --primary-color: #ff4d4d;
+    --secondary-color: #ff6666;
+    --accent-color: #ff1a1a;
+    --background-color: #ffe6e6;
+    --text-color: #660000;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+}
+
+/* Logo (phone icon) styles */
+.logo-img {
+    height: 40px;
+    width: auto;
+    min-width: 40px;
+    object-fit: contain;
+}
+
+/* Modina Center Image */
+.modina-img {
+    height: 40px;
+    width: auto;
+    max-width: 200px;
+    object-fit: contain;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .logo-img {
+        height: 35px;
+        min-width: 35px;
+    }
+
+    .modina-img {
+        height: 30px;
+        max-width: 150px;
+    }
+
+    .navbar-collapse {
+        position: fixed;
+        top: 0;
+        right: -300px;
+        /* Start position off-screen */
+        width: 300px;
+        /* Width of the drawer */
+        height: 100vh;
+        /* Full height */
+        background-color: #f8f9fa;
+        transition: all 0.3s ease-in-out;
+        padding: 20px;
+        overflow-y: auto;
+        z-index: 1045;
+    }
+
+    .navbar-collapse.show {
+        right: 0;
+        /* Slide in position */
+        box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Adjust nav items for vertical layout */
+    .navbar-nav {
+        margin-top: 20px;
+    }
+
+    .nav-item {
+        margin: 10px 0;
+    }
+}
