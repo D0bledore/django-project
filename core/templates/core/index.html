@@ -1,46 +1,96 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block stylesheet %}<link rel="stylesheet" href="{% static 'css/core-index.css' %}">{% endblock %}
+
+{% block stylesheet %}
+<link rel="stylesheet" href="{% static 'css/core-index.css' %}">
+<style>
+    .card {
+        height: 100%;
+    }
+    .card-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    .card-img-top {
+        height: 200px;
+        object-fit: cover;
+    }
+</style>
+{% endblock %}
 {% block title %}Modina Second-Hand{% endblock %}
 
 {% block content %}
 <div class="container-fluid mt-5">
     <div class="jumbotron text-center">
         <h1 class="display-4">Welcome to Modina!</h1>
-        <p class="lead">A modern way of living. Increase your lifestyle without increasing your expenses or harming
-            nature.</p>
-        <a href="{% url 'blog_index' %}" class="btn btn-primary btn-lg">See Posts</a>
+        <p class="lead">A modern way of living. Increase your lifestyle without increasing your expenses or harming nature.</p>
+        <hr class="my-4">
     </div>
 </div>
+
 <div class="container">
-    <div class="row text-center">
-        <div class="col-12 col-md-6 col-lg-3">
-            <img src="{% static 'images/vintage.svg' %}" class="img-fluid" alt="Vintage">
-            <h3>Vintage</h3>
-            <p>Find unique vintage items that add character to your home.</p>
+    <div class="row">
+        <div class="col-sm-12 col-md-6">
+            <h2 class="text-center font-weight-bold">What We Offer</h2>
+            <img src="{% static 'images/welcome.svg' %}" class="img-fluid" alt="Second Hand">
         </div>
-        <div class="col-12 col-md-6 col-lg-3">
-            <img src="{% static 'images/small-town.svg' %}" class="img-fluid" alt="Small Town">
-            <h3>Small Town</h3>
-            <p>Connect with local users and discover hidden gems in your area.</p>
-        </div>
-        <div class="col-12 col-md-6 col-lg-3">
-            <img src="{% static 'images/world.svg' %}" class="img-fluid" alt="World">
-            <h3>Global Reach</h3>
-            <p>Join a global community dedicated to sustainability and reuse.</p>
-        </div>
-        <div class="col-12 col-md-6 col-lg-3">
-            <img src="{% static 'images/dog.svg' %}" class="img-fluid" alt="Dog">
-            <h3>Pet Friendly</h3>
-            <p>Find items for your furry friends and give them a new home.</p>
+        <div class="col-sm-12 col-md-6">
+            <p>Modina is a platform for buying and selling second-hand items. We offer a wide range of products from vintage items to pet supplies. Our goal is to create a sustainable community that values the longevity of items and the environment.</p>
+            <div class="text-center">
+                <a href="{% url 'blog_index' %}" class="btn btn-light btn-lg">Explore</a>
+            </div>
         </div>
     </div>
 </div>
 
-<div class="text-center mt-5">
-    <h2>Modina - Second Hand, is a lifestyle.</h2>
-    <p>Get rid of the things you don't want and find new treasures. Join us in creating a healthy culture of
-        exchange and longevity of items.</p>
+<div class="container mt-5">
+    <div class="row text-center">
+        <div class="col-12 col-md-6 col-lg-3 mb-4">
+            <div class="card">
+                <img src="{% static 'images/vintage.svg' %}" class="card-img-top" alt="Vintage">
+                <div class="card-body">
+                    <h3 class="card-title">Vintage</h3>
+                    <p class="card-text">Find unique vintage items that add character to your home.</p>
+                    <a href="{% url 'blog_index' %}" class="btn btn-primary">See Posts</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3 mb-4">
+            <div class="card">
+                <img src="{% static 'images/small-town.svg' %}" class="card-img-top" alt="Small Town">
+                <div class="card-body">
+                    <h3 class="card-title">Small Town</h3>
+                    <p class="card-text">Connect with local users and discover hidden gems in your area.</p>
+                    {# <a href="{% url 'search_local_posts' %}" class="btn btn-secondary">Search Local Posts</a> #}
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3 mb-4">
+            <div class="card">
+                <img src="{% static 'images/world.svg' %}" class="card-img-top" alt="World">
+                <div class="card-body">
+                    <h3 class="card-title">Global Reach</h3>
+                    <p class="card-text">Join a global community dedicated to sustainability and reuse.</p>
+                    {# <a href="{% url 'signup' %}" class="btn btn-success">Sign Up</a> #}
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3 mb-4">
+            <div class="card">
+                <img src="{% static 'images/dog.svg' %}" class="card-img-top" alt="Dog">
+                <div class="card-body">
+                    <h3 class="card-title">Pet Friendly</h3>
+                    <p class="card-text">Find items for your furry friends and give them a new home.</p>
+                    <a href="{% url 'blog_index' %}" class="btn btn-warning">See Posts</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<div class="container text-center mt-5">
+    <h2>Modina - Second Hand, is a lifestyle.</h2>
+    <p>Get rid of the things you don't want and find new treasures. Join us in creating a healthy culture of exchange and longevity of items.</p>
 </div>
 {% endblock content %}
