@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block stylesheet %}
-<link rel="stylesheet" href="{% static 'css/core-index.css' %}">
+<link rel="stylesheet" href="{% static 'css/index.css' %}">
 <style>
     .card {
         height: 100%;
@@ -38,7 +38,7 @@
         <div class="col-sm-12 col-md-6">
             <p>Modina is a platform for buying and selling second-hand items. We offer a wide range of products from vintage items to pet supplies. Our goal is to create a sustainable community that values the longevity of items and the environment.</p>
             <div class="text-center">
-                <a href="{% url 'blog_index' %}" class="btn btn-light btn-lg">Explore</a>
+                <a href="{% url 'blog' %}" class="btn btn-light btn-lg">Explore</a>
             </div>
         </div>
     </div>
@@ -52,7 +52,7 @@
                 <div class="card-body">
                     <h3 class="card-title">Vintage</h3>
                     <p class="card-text">Find unique vintage items that add character to your home.</p>
-                    <a href="{% url 'blog_index' %}" class="btn btn-primary">See Posts</a>
+                    <a href="{% url 'blog' %}" class="btn btn-primary">See Posts</a>
                 </div>
             </div>
         </div>
@@ -72,7 +72,7 @@
                 <div class="card-body">
                     <h3 class="card-title">Global Reach</h3>
                     <p class="card-text">Join a global community dedicated to sustainability and reuse.</p>
-                    {# <a href="{% url 'signup' %}" class="btn btn-success">Sign Up</a> #}
+                    <a href="{% url 'register' %}" class="btn btn-success">Sign Up</a>
                 </div>
             </div>
         </div>
@@ -82,7 +82,7 @@
                 <div class="card-body">
                     <h3 class="card-title">Pet Friendly</h3>
                     <p class="card-text">Find items for your furry friends and give them a new home.</p>
-                    <a href="{% url 'blog_index' %}" class="btn btn-warning">See Posts</a>
+                    <a href="{% url 'blog' %}" class="btn btn-warning">See Posts</a>
                 </div>
             </div>
         </div>
