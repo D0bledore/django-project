@@ -73,3 +73,15 @@ body {
         margin: 10px 0;
     }
 }
+
+/* Btn Styles */
+.btn-primary {
+    background-color: #ff0000;
+    border-color: #ff0000;
+    padding: 0.5rem 2rem;
+}
+
+.btn-primary:hover {
+    background-color: #dd0000;
+    border-color: #dd0000;
+}

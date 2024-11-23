@@ -1,12 +1,46 @@
 {% extends 'base.html' %}
-
-{% load static %} 
+{% load static %}
+{% block stylesheet %}<link rel="stylesheet" href="{% static 'css/core-index.css' %}">{% endblock %}
+{% block title %}Modina Second-Hand{% endblock %}
 
 {% block content %}
-<div class="welcome-container">
-    <h1>Welcome to Our Site!</h1>
-    <p>We're glad to have you here. Feel free to explore and see the posts made to this site.</p>
-    <a href="{% url 'blog_index' %}" class="btn btn-primary">See Posts</a>
+<div class="container-fluid mt-5">
+    <div class="jumbotron text-center">
+        <h1 class="display-4">Welcome to Modina!</h1>
+        <p class="lead">A modern way of living. Increase your lifestyle without increasing your expenses or harming
+            nature.</p>
+        <a href="{% url 'blog_index' %}" class="btn btn-primary btn-lg">See Posts</a>
+    </div>
+</div>
+<div class="container">
+    <div class="row text-center">
+        <div class="col-12 col-md-6 col-lg-3">
+            <img src="{% static 'images/vintage.svg' %}" class="img-fluid" alt="Vintage">
+            <h3>Vintage</h3>
+            <p>Find unique vintage items that add character to your home.</p>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+            <img src="{% static 'images/small-town.svg' %}" class="img-fluid" alt="Small Town">
+            <h3>Small Town</h3>
+            <p>Connect with local users and discover hidden gems in your area.</p>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+            <img src="{% static 'images/world.svg' %}" class="img-fluid" alt="World">
+            <h3>Global Reach</h3>
+            <p>Join a global community dedicated to sustainability and reuse.</p>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+            <img src="{% static 'images/dog.svg' %}" class="img-fluid" alt="Dog">
+            <h3>Pet Friendly</h3>
+            <p>Find items for your furry friends and give them a new home.</p>
+        </div>
+    </div>
 </div>
 
+<div class="text-center mt-5">
+    <h2>Modina - Second Hand, is a lifestyle.</h2>
+    <p>Get rid of the things you don't want and find new treasures. Join us in creating a healthy culture of
+        exchange and longevity of items.</p>
+</div>
+</div>
 {% endblock content %}
