@@ -1,6 +1,18 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Modina Blog{% endblock %}
+
 
 {% block content %}
-    <h1>Welcome to the Blog</h1>
+<div class="container mt-5">
+    <h1>Welcome to the Modina - Second Hand Blog</h1>
+    <p>If you have furniture that you would like to get rid of, resell, give new life, or make some money from, then this is the place for you.</p>
+    <p>If that applies to you, why not join?</p>
+    <div class="text-center my-4">
+        <img src="{% static 'images/join.svg' %}" alt="Join Us" class="img-fluid">
+    </div>
     <p><a href="{% url 'posts' %}">See Blog Posts</a></p>
+    <p><a href="{% url 'create_post' %}" class="btn btn-primary">Create Your Own Post</a></p>
+</div>
 {% endblock %}

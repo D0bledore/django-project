@@ -1,28 +1,27 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render, redirect
+from django.http import JsonResponse
 
-# Import model Blog
+# Import models and forms
 from .models import BlogPost
+from .forms import BlogPostForm
+
 
 def blog_index(request):
     return render(request, 'blog/blog.html')
-    
 
 def blog_post(request):
     posts = BlogPost.objects.all()
     content = {"posts": posts}
     return render(request, 'blog/posts.html', content)
 
-
 def create_post(request):
     if request.method == 'POST':
-        form = PostForm(request.POST)
+        form = BlogPostForm(request.POST)
         if form.is_valid():
-            # Automatically set the author to the current logged-in user
             post = form.save(commit=False)
             post.author = request.user
             post.save()
-            return redirect('post_list')
+            return redirect('posts') 
     else:
-        form = PostForm()
-    return render(request, 'create_post.html', {'form': form})
+        form = BlogPostForm()
+    return render(request, 'blog/create_post.html', {'form': form})
