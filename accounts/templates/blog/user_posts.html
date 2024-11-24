@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container text-center p-5">
+    <h2>Posts by {{ user.username }}</h2>
+    {% if posts %}
+    <ul class="list-unstyled">
+        {% for post in posts %}
+        <li>
+            <a href="{#% url 'post-detail' post.id %#}">{{ post.title }}</a>
+            <small>Created on {{ post.created_at }}</small>
+            <small>& Is published = {{ post.is_published }}</small>
+        </li>
+        {% endfor %}
+    </ul>
+    <!-- Create Post -->
+    {% else %}
+    <p>{{ user.username }} has not posted anything yet.</p>
+    {% endif %}
+    <a href="{% url 'create_post' %}" class="btn btn-primary">Create Post</a>
+</div>
+{% endblock content %}
