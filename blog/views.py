@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
 
 # Import models and forms
 from .models import BlogPost
@@ -14,14 +14,34 @@ def blog_post(request):
     content = {"posts": posts}
     return render(request, 'blog/posts.html', content)
 
+
 def create_post(request):
     if request.method == 'POST':
         form = BlogPostForm(request.POST)
         if form.is_valid():
             post = form.save(commit=False)
-            post.author = request.user
-            post.save()
-            return redirect('posts') 
+            if request.user.is_authenticated:
+                post.author = request.user
+                post.is_published = False  # Post is not published immediately
+                post.save()
+                return redirect('user_posts', user_id=request.user.id)
+            else:
+                # Handle unauthenticated user
+                email = request.POST.get('email')
+                if email:
+                    post.email = email
+                    post.is_published = False
+                    post.save()
+                    # Send email to user with a link to complete registration
+                    return redirect(reverse('register'))
+                else:
+                    form.add_error(None, 'Email is required for guest users.')
     else:
         form = BlogPostForm()
     return render(request, 'blog/create_post.html', {'form': form})
+
+
+@login_required
+def manage_posts(request):
+    posts = BlogPost.objects.filter(author=request.user)
+    return render(request, 'accounts/manage_posts.html', {'posts': posts})
