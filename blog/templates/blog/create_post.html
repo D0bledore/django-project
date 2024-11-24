@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Create Post{% endblock title %}
+
+{% block stylesheet %}
+<link rel="stylesheet" href="{% static 'css/create_post.css' %}">
+{% endblock stylesheet %}
+
+{% block content %}
+<div class="container">
+    <h1>Create a Post</h1>
+    <form method="post" id="createPostForm">
+        {% csrf_token %}
+        <div class="form-step" style="display: block;">
+            <label for="title">What is it that you want to sell?</label>
+            {{ form.title }}
+            <label for="category">Category</label>
+            {{ form.category }}
+            <button type="button" onclick="nextStep()">Next</button>
+        </div>
+        <div class="form-step" style="display: none;">
+            <label for="condition">What is the condition of the item? (1-10)</label>
+            {{ form.condition }}
+            <button type="button" onclick="nextStep()">Next</button>
+        </div>
+        <div class="form-step" style="display: none;">
+            <label for="content">What are the design features that make the item unique or appealing?</label>
+            {{ form.content }}
+            <button type="button" onclick="nextStep()">Next</button>
+        </div>
+        <div class="form-step" style="display: none;">
+            <label for="price">What is the price you want to set for the item?</label>
+            {{ form.price }}
+            <button type="button" onclick="nextStep()">Next</button>
+        </div>
+        <div class="form-step" style="display: none;">
+            <label for="sale_handling">How/when would you like to handle the sale?</label>
+            {{ form.sale_handling }}
+            <button type="submit">Submit</button>
+        </div>
+    </form>
+</div>
+{% endblock content %}
+
+{% block scripts %}
+<script src="{% static 'js/create_post.js' %}"></script>
+{% endblock scripts %}
