@@ -16,7 +16,6 @@ class BlogPost(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_published = models.BooleanField(default=False)
-    email = models.EmailField(max_length=100, default='', null=True, blank=True)
     image = models.ImageField(upload_to='images/', null=True, blank=True)
     location = models.CharField(max_length=100, default='')
 
