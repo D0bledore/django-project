@@ -16,6 +16,7 @@
                     <h2>Create a Post</h2>
                 </div>
                 <div class="card-body">
+                    {% if user.is_authenticated %}
                     <form method="post" id="createPostForm" enctype="multipart/form-data" data-register-url="{% url 'register' %}" data-is-authenticated="{{ user.is_authenticated }}">
                         {% csrf_token %}
                         <div class="form-step" style="display: block;">
@@ -72,20 +73,14 @@
                             <div class="row" id="image-preview"></div>
                             <button type="button" class="btn btn-primary next-step">Next</button>
                         </div>
-                        {% if not user.is_authenticated %}
-                        <div class="form-step" style="display: none;">
-                            <div class="mb-3">
-                                <h3>Guest User Information</h3>
-                                <label for="email" class="form-label">Email</label>
-                                <input type="email" id="email" name="email" class="form-control" required>
-                            </div>
-                            <button type="button" class="btn btn-primary next-step">Next</button>
-                        </div>
-                        {% endif %}
                         <div class="form-step" style="display: none;">
                             <button type="submit" class="btn btn-success btn-block">Submit</button>
                         </div>
                     </form>
+                    {% else %}
+                    <p class="text-center">You need to <a href="{% url 'register' %}">register</a> or <a href="{% url 'login' %}">login</a> to create a post.</p>
+                    <img src="{% static 'images/support.svg' %}" alt="support" class="img-fluid mx-auto d-block">
+                    {% endif %}
                 </div>
             </div>
         </div>
