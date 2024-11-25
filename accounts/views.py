@@ -6,8 +6,9 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.decorators import login_required
 
 
-# Import models
+# Import models and forms
 from blog.models import BlogPost
+from blog.forms import BlogPostForm
 
 
 class CustomLoginView(LoginView):
@@ -72,3 +73,25 @@ def publish_post(request, post_id):
     post.is_published = True
     post.save()
     return redirect('user_posts')
+
+
+@login_required
+def edit_post(request, post_id):
+    post = get_object_or_404(BlogPost, id=post_id, author=request.user)
+    if request.method == 'POST':
+        form = BlogPostForm(request.POST, instance=post)
+        if form.is_valid():
+            form.save()
+            return redirect('post_detail', post_id=post.id)
+    else:
+        form = BlogPostForm(instance=post)
+    return render(request, 'blog/edit_post.html', {'form': form, 'post': post})
+
+
+@login_required
+def delete_post(request, post_id):
+    post = get_object_or_404(BlogPost, id=post_id, author=request.user)
+    if request.method == 'POST':
+        post.delete()
+        return redirect('posts')
+    return render(request, 'blog/delete_post.html', {'post': post})

@@ -9,6 +9,7 @@
     <h2>Manage Your Posts</h2>
     <ul class="list-unstyled">
         {% for post in posts %}
+        
         <li>Title: {{ post.title }} - {{ post.is_published|yesno:"Published,Not Published" }}</li>
         <form method="post" action="{% url 'publish_post' post.id %}">
             {% csrf_token %}
