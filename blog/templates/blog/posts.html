@@ -31,7 +31,7 @@
                     <p class="card-text"><small class="text-muted">Price: ${{ post.price }}</small></p>
                     <p class="card-text"><small class="text-muted">Posted by: {{ post.author.username }}</small></p>
                     <p class="card-text"><small class="text-muted">Created on: {{ post.created_at|date:"F j, Y" }}</small></p>
-                    <a href="{#% url 'post_detail' post.id %#}" class="btn btn-secondary">Read More</a>
+                    <a href="{% url 'post_detail' post.id %}" class="btn btn-secondary">Read More</a>
                 </div>
             </div>
         </div>

@@ -85,3 +85,19 @@ body {
     background-color: #dd0000;
     border-color: #dd0000;
 }
+
+/* Include badge styles */
+.badge-success {
+    background-color: #28a745 !important;
+    color: #fff !important;
+}
+
+.badge-info {
+    background-color: #17a2b8 !important;
+    color: #fff !important;
+}
+
+.badge-warning {
+    background-color: #ffc107 !important;
+    color: #fff !important;
+}

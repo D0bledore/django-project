@@ -41,7 +41,7 @@ def create_post(request):
     return render(request, 'blog/create_post.html', {'form': form})
 
 
-@login_required
-def manage_posts(request):
-    posts = BlogPost.objects.filter(author=request.user)
-    return render(request, 'accounts/manage_posts.html', {'posts': posts})
+def post_detail(request, post_id):
+    post = BlogPost.objects.get(pk=post_id)
+    return render(request, 'blog/post_detail.html', {'post': post})
+

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ post.title }}{% endblock %}
+{% block stylesheet %}
+<link rel="stylesheet" href="{% static 'css/post_detail.css' %}">
+{% endblock stylesheet %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h1 class="display-4">{{ post.title }}</h1>
+                    <p class="text-muted">Posted by: <strong>{{ post.author.username }}</strong></p>
+                    <p class="text-muted">Category: <span class="badge badge-info">{{ post.category }}</span></p>
+                    <p class="text-muted">Condition: <span class="badge badge-warning">{{ post.condition }}/10</span></p>
+                    <p class="text-muted">Price: <span class="badge badge-success">${{ post.price }}</span></p>
+                    <p class="text-muted">Created on: {{ post.created_at|date:"F j, Y" }}</p>
+                </div>
+                <div class="card-body">
+                    <p>{{ post.content }}</p>
+                </div>
+                {% if post.author == user %}
+                <div class="card-footer text-center">
+                    <a href="{% url 'edit_post' post.id %}" class="btn btn-primary">Edit Post</a>
+                    <a href="{% url 'delete_post' post.id %}" class="btn btn-danger">Delete Post</a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
