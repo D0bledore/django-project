@@ -12,3 +12,6 @@ __pycache__
 
 # Secret environment variables
 .env
+
+# Ignore media files
+media/
