@@ -1,4 +1,7 @@
 /* create_post.css */
+.form-step {
+    margin-bottom: 20px;
+}
 
 .form-step:first-child {
     display: block;
@@ -16,6 +19,8 @@ button {
 .card {
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 0 auto;
 }
 
 .card-header {
@@ -29,4 +34,9 @@ button {
 
 .btn-block {
     width: 100%;
+}
+
+#image-preview img {
+    max-width: 100px;
+    margin: 5px;
 }
