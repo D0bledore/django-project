@@ -19,10 +19,14 @@ def create_post(request):
     if request.method == 'POST':
         form = BlogPostForm(request.POST, request.FILES)
         if form.is_valid():
-            post = form.save(commit=False)
-            post.author = request.user
-            post.save()
-            return redirect('user_posts', user_id=request.user.id)
+            try:
+                post = form.save(commit=False)
+                post.author = request.user
+                post.save()
+                return redirect('user_posts', user_id=request.user.id)
+            except Exception as e:
+                print(f"Error saving post: {e}")  # Log the error
+                form.add_error(None, f"Error saving post: {e}")
     else:
         form = BlogPostForm()
     return render(request, 'blog/create_post.html', {'form': form})
