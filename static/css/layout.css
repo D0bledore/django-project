@@ -90,6 +90,43 @@ nav.bg-light {
     border-radius: 14px;
 }
 
+.search-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    max-width: 500px; /* Adjust this value to your desired width */
+}
+
+#search-form {
+    width: 100%;
+}
+
+#search-form .input-group {
+    width: 100%;
+    display: flex;
+}
+
+#search-form .form-control {
+    flex-grow: 1;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+#search-form .btn {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+
+/* Media Queries */
+@media (max-width: 576px) {
+    .search-container {
+        max-width: 100%;
+        padding: 0 15px;
+    }
+}
+
 @media (max-width: 768px) {
     .logo-img {
         height: 35px;
