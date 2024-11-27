@@ -10,13 +10,15 @@
 
 {% block content %}
 <div class="container-fluid mt-5">
-    <div class="jumbotron text-center">
+    <div class="bg-light p-5 rounded text-center">
         <h1 class="display-4">Welcome to Modina!</h1>
         <p class="lead">Join the Movement for Sustainable Shopping!</p>
-        <form class="form-inline my-2 my-lg-0 m-3" action="{#% url 'search' %#}" method="get">
-            <input class="form-control my-2 mr-sm-2" type="search" placeholder="Search for items" aria-label="Search" name="q">
-            <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
+        <div class="search-container">
+            <form class="form-inline my-2 my-lg-0 m-3" action="{#% url 'search' %#}" method="get">
+                <input class="form-control my-2 mr-sm-2" type="search" placeholder="Search for items" aria-label="Search" name="q">
+                <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
         <hr class="my-4">
         <a href="{% url 'create_post' %}" class="btn btn-primary btn-lg">Start Shopping Now!</a>
     </div>
