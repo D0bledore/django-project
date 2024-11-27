@@ -1,46 +1,24 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block title %}Modina Second-Hand{% endblock %}
+
 {% block stylesheet %}
 <link rel="stylesheet" href="{% static 'css/index.css' %}">
-<style>
-    .card {
-        height: 100%;
-    }
-    .card-body {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-    }
-    .card-img-top {
-        height: 200px;
-        object-fit: cover;
-    }
-</style>
-{% endblock %}
-{% block title %}Modina Second-Hand{% endblock %}
+{% endblock stylesheet %}
+
 
 {% block content %}
 <div class="container-fluid mt-5">
     <div class="jumbotron text-center">
         <h1 class="display-4">Welcome to Modina!</h1>
-        <p class="lead">A modern way of living. Increase your lifestyle without increasing your expenses or harming nature.</p>
+        <p class="lead">Join the Movement for Sustainable Shopping!</p>
+        <form class="form-inline my-2 my-lg-0 m-3" action="{#% url 'search' %#}" method="get">
+            <input class="form-control my-2 mr-sm-2" type="search" placeholder="Search for items" aria-label="Search" name="q">
+            <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
         <hr class="my-4">
-    </div>
-</div>
-
-<div class="container">
-    <div class="row">
-        <div class="col-sm-12 col-md-6">
-            <h2 class="text-center font-weight-bold">What We Offer</h2>
-            <img src="{% static 'images/welcome.svg' %}" class="img-fluid" alt="Second Hand">
-        </div>
-        <div class="col-sm-12 col-md-6">
-            <p>Modina is a platform for buying and selling second-hand items. We offer a wide range of products from vintage items to pet supplies. Our goal is to create a sustainable community that values the longevity of items and the environment.</p>
-            <div class="text-center">
-                <a href="{% url 'blog' %}" class="btn btn-light btn-lg">Explore</a>
-            </div>
-        </div>
+        <a href="{% url 'create_post' %}" class="btn btn-primary btn-lg">Start Shopping Now!</a>
     </div>
 </div>
 
