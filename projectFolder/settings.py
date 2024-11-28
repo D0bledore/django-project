@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'core',
     'blog',
     'accounts',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
