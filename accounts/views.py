@@ -1,15 +1,16 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, logout
 from django.contrib.auth.views import LoginView
-from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
-
-# Import models and forms
+# Import models and forms 
 from blog.models import BlogPost
-from blog.forms import BlogPostForm
-
+from blog.forms import BlogPostForm 
+from .forms import ProfileForm, CustomUserCreationForm
+from .models import Profile
 
 class CustomLoginView(LoginView):
     template_name = 'accounts/login.html'
@@ -21,14 +22,15 @@ class CustomLoginView(LoginView):
 
 def register(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('index')  # Redirect to the index page after registration
+            return redirect('index')
     else:
-        form = UserCreationForm()
+        form = CustomUserCreationForm()
     return render(request, 'accounts/register.html', {'form': form})
+
 
 def login_view(request):
     if request.method == 'POST':
@@ -51,8 +53,9 @@ def logout_view(request):
 @login_required
 def profile(request, user_id):
     user = get_object_or_404(User, id=user_id)
+    profile = get_object_or_404(Profile, user=user)
     posts = BlogPost.objects.filter(author=user)
-    return render(request, 'accounts/profile.html', {'posts': posts, 'profile_user': user})
+    return render(request, 'accounts/profile.html', {'posts': posts, 'profile': profile})
     
 
 @login_required
@@ -95,3 +98,17 @@ def delete_post(request, post_id):
         post.delete()
         return redirect('posts')
     return render(request, 'blog/delete_post.html', {'post': post})
+
+
+@login_required
+def edit_profile(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+    profile = get_object_or_404(Profile, user=user)
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            form.save()
+            return redirect('profile', user_id=user.id)
+    else:
+        form = ProfileForm(instance=profile)
+    return render(request, 'accounts/edit_profile.html', {'form': form, 'profile': profile})
