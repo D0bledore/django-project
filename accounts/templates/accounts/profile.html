@@ -3,19 +3,23 @@
 {% block title %}Profile{% endblock %}
 
 {% block content %}
-    <div class="profile-container text-center p-5">
-        <h1>Welcome, {{ user.username }}!</h1>
-        <p>This is your profile page. Here you can view and update your personal information.</p>
-        
-        <div class="profile-details">
-            <h2>Profile Details</h2>
-            <p><strong>Username:</strong> {{ user.username }}</p>
-            <p><strong>Email:</strong> {{ user.email }}</p>
-        </div>
-        
-        <div class="profile-actions">
-            <a href="{% url 'edit_profile' user.id %}" class="btn btn-secondary">Edit Profile</a>
-            <a href="{% url 'user_posts' user.id %}" class="btn btn-success">See Your Posts</a>
-            <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
+<div class="profile-container text-center p-5">
+    <h1>Welcome, {{ user.username }}!</h1>
+    <p>This is your profile page. Here you can view and update your personal information.</p>
+
+    <div class="profile-details">
+        <h2>Profile Details</h2>
+        <p><strong>Username:</strong> {{ user.username }}</p>
+        <p><strong>Email:</strong> {{ user.email }}</p>
     </div>
+
+    <div class="profile-actions">
+        <a href="{% url 'edit_profile' user.id %}" class="btn btn-secondary">Edit Profile</a>
+        <a href="{% url 'user_posts' user.id %}" class="btn btn-success">See Your Posts</a>
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit">Logout</button>
+        </form>
+    </div>
+</div>
 {% endblock %}

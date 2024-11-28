@@ -4,7 +4,7 @@ from django.contrib.auth.views import LoginView
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
-User = get_user_model()
+CustomUser = get_user_model()
 
 # Import models and forms 
 from blog.models import BlogPost
@@ -43,26 +43,31 @@ def login_view(request):
         form = AuthenticationForm()
     return render(request, 'accounts/login.html', {'form': form})
 
-def logout_view(request):
+
+def custom_logout(request):
     if request.method == 'POST':
+        referer = request.META.get('HTTP_REFERER', '')
         logout(request)
-        return redirect('index')  # Redirect to the index page after logout
-    return render(request, 'accounts/logout.html')
+        if 'profile' in referer:
+            return render(request, 'accounts/logout.html')  
+        return redirect('index') 
+    return redirect('index') 
 
 
 @login_required
 def profile(request, user_id):
-    user = get_object_or_404(User, id=user_id)
-    profile = get_object_or_404(Profile, user=user)
+    user = get_object_or_404(CustomUser, id=user_id)
+    profile, created = Profile.objects.get_or_create(user=user)
     posts = BlogPost.objects.filter(author=user)
     return render(request, 'accounts/profile.html', {'posts': posts, 'profile': profile})
     
 
 @login_required
 def view_posts(request, user_id):
-    user = get_object_or_404(User, id=user_id)
+    user = get_object_or_404(CustomUser, id=user_id)
     posts = BlogPost.objects.filter(author=user)
     return render(request, 'blog/user_posts.html', {'posts': posts, 'profile_user': user})
+
 
 @login_required
 def manage_posts(request):
@@ -102,7 +107,7 @@ def delete_post(request, post_id):
 
 @login_required
 def edit_profile(request, user_id):
-    user = get_object_or_404(User, id=user_id)
+    user = get_object_or_404(CustomUser, id=user_id)
     profile = get_object_or_404(Profile, user=user)
     if request.method == 'POST':
         form = ProfileForm(request.POST, request.FILES, instance=profile)
