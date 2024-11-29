@@ -7,9 +7,6 @@ db.sqlite3
 # Python caching
 __pycache__ 
 
-# collectstatic generated directory
-/staticfiles/
-
 # Secret environment variables
 .env
 
