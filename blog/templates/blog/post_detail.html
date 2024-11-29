@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load cloudinary %}
 
 {% block title %}{{ post.title }}{% endblock title %}
 
@@ -10,7 +11,9 @@
         </div>
         <div class="card-body">
             {% if post.image %}
-                            <img src="{{ post.image.url }}" alt="{{ post.title }}" class="img-fluid mb-3">
+            {% cloudinary post.image.name width=800 height=600 crop="fill" alt=post.title class="img-fluid mb-3" %}
+            {% else %}
+            <p>No image available</p>
             {% endif %}
             <p><strong>Category:</strong> {{ post.category }}</p>
             <p><strong>Condition:</strong> {{ post.condition }}/10</p>
