@@ -1,3 +1,3 @@
 release: python manage.py migrate --no-input
-python manage.py collectstatic --noinput --upload-unhashed-files
+release: python manage.py collectstatic --upload-unhashed-files --no-input
 web: gunicorn projectFolder.wsgi
