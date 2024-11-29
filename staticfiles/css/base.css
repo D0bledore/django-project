@@ -1,0 +1,29 @@
+:root {
+    --primary-color: #ff0015;  
+    --secondary-color: #f1faee;
+    --accent-color: #a8dadc;   
+    --background-color: #fce9e9;
+    --text-color: #000;        
+    --info-color: #457b9d;    
+    --success-color: #2a9d8f;    
+    --warning-color: #e9c46a;     
+    --danger-color: #d62828;      
+    --light-color: #ffffff;
+    --dark-color: #264653;      
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    margin: 8rem 0 0 0;
+    padding: 0;
+    transition: padding-right 0.3s ease-in-out;
+    will-change: padding-right;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
