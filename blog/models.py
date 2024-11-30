@@ -1,7 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
-from django.core.files.storage import default_storage
+from storages.backends.s3boto3 import S3Boto3Storage
 
 
 
