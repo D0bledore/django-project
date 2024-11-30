@@ -34,6 +34,10 @@ def create_post(request):
 
 
 def post_detail(request, post_id):
-    post = BlogPost.objects.get(pk=post_id)
-    return render(request, 'blog/post_detail.html', {'post': post})
+    try:
+        post = BlogPost.objects.get(pk=post_id)
+        return render(request, 'blog/post_detail.html', {'post': post})
+    except BlogPost.DoesNotExist:
+        messages.error(request, "The requested blog post does not exist.")
+        return redirect('posts')  
 
