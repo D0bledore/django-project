@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
+from django.core.files.storage import default_storage
 
 
 
@@ -16,7 +17,7 @@ class BlogPost(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_published = models.BooleanField(default=False)
-    image = models.ImageField(upload_to='images/')
+    image = models.ImageField(storage=S3Boto3Storage(), upload_to='images/')
     location = models.CharField(max_length=100, default='')
 
     def __str__(self):
