@@ -1,7 +1,6 @@
 from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
-from cloudinary.models import CloudinaryField
 
 
 
@@ -17,7 +16,7 @@ class BlogPost(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_published = models.BooleanField(default=False)
-    image = CloudinaryField('image', null=True, blank=True)
+    image = models.ImageField(upload_to='images/')
     location = models.CharField(max_length=100, default='')
 
     def __str__(self):
