@@ -17,7 +17,7 @@ class BlogPost(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_published = models.BooleanField(default=False)
-    image = models.ImageField(storage=S3Boto3Storage(), upload_to='images/')
+    image = models.ImageField(storage=S3Boto3Storage(), upload_to='media/')
     location = models.CharField(max_length=100, default='')
 
     def __str__(self):
