@@ -12,18 +12,12 @@ function validateStep(step) {
     const inputs = formSteps[step].querySelectorAll('input, textarea, select');
     let isValid = true;
 
-    for (let input of inputs) {
+    inputs.forEach(input => {
         if (!input.checkValidity()) {
-            input.reportValidity();
+            input.reportValidity(); // Show validation message
             isValid = false;
         }
-    }
-
-    // Disable/enable next button based on validation
-    const nextButton = formSteps[step].querySelector('.next-step');
-    if (nextButton) {
-        nextButton.disabled = !isValid;
-    }
+    });
 
     return isValid;
 }
@@ -46,11 +40,9 @@ function validateImage(file) {
 function previewImages() {
     const imagePreview = document.getElementById('image-preview');
     const imageUpload = document.getElementById('image-upload');
+    
     let errorDisplay = document.querySelector('.alert.alert-danger');
-    if (errorDisplay) {
-        imagePreview.parentNode.insertBefore(errorDisplay, imagePreview);
-    }
-
+    
     if (!errorDisplay) {
         errorDisplay = document.createElement('div');
         errorDisplay.className = 'alert alert-danger';
@@ -83,11 +75,7 @@ function previewImages() {
             }
         }
 
-        if (hasError) {
-            errorDisplay.style.display = 'block';
-        } else {
-            errorDisplay.style.display = 'none';
-        }
+        errorDisplay.style.display = hasError ? 'block' : 'none';
 
         // Disable next/submit button if there are errors
         const nextButton = imagePreview.closest('.form-step').querySelector('.next-step, [type="submit"]');
@@ -109,12 +97,23 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Add event listeners to next step buttons
     const nextStepButtons = document.querySelectorAll('.next-step');
+
     nextStepButtons.forEach(button => {
         button.addEventListener('click', function () {
-            if (validateStep(currentStep)) {
+            // Validate inputs for the current step without disabling the button
+            const isValidStep = validateStep(currentStep);
+
+            // If valid, move to the next step
+            if (isValidStep) {
                 currentStep++;
                 if (currentStep < formSteps.length) {
                     showStep(currentStep);
+                }
+            } else {
+                // Optionally scroll to the first invalid input
+                const firstInvalidInput = formSteps[currentStep].querySelector(':invalid');
+                if (firstInvalidInput) {
+                    firstInvalidInput.focus();
                 }
             }
         });
