@@ -24,8 +24,10 @@
             <p><strong>Created at:</strong> {{ post.created_at }}</p>
             <p><strong>Last updated:</strong> {{ post.updated_at }}</p>
         </div>
+        {% if user == post.author %}
         <a href="{% url 'edit_post' post.id %}" class="btn btn-secondary">Edit Post</a>
         <a href="{% url 'delete_post' post.id %}" class="btn btn-danger">Delete Post</a>
+        {% endif %}
     </div>
 </div>
 {% endblock content %}
