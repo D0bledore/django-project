@@ -7,76 +7,14 @@
 <link rel="stylesheet" href="{% static 'css/index.css' %}">
 {% endblock stylesheet %}
 
-
 {% block content %}
 <div class="container-fluid mt-5">
-    <div class="bg-light p-5 rounded text-center">
-        <h1 class="display-4">Welcome to Modina!</h1>
-        <p class="lead">Join the Movement for Sustainable Shopping!</p>
-        <div class="search-container">
-            <form id='search-form' class="form-inline my-2 my-lg-0 m-3" action="{#% url 'search' %#}" method="get">
-                <div class="input-group">
-                    <input class="form-control" type="search" placeholder="Search for items" aria-label="Search"
-                        name="q">
-                    <div class="input-group-append">
-                        <button class="btn btn-success" type="submit">Search</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-        <em>OR</em>
-        <a href="{% url 'create_post' %}" class="btn btn-primary btn-lg">Create a Post!</a>
+    <div class="headline-container">
+        <h1>A First-Hand Solution for Your Second-Hand Items!</h1>
     </div>
-</div>
-
-<div class="container mt-5">
-    <div class="row text-center">
-        <div class="col-12 col-md-6 col-lg-3 mb-4">
-            <div class="card">
-                <img src="{% static 'images/vintage.svg' %}" class="card-img-top" alt="Vintage">
-                <div class="card-body">
-                    <h3 class="card-title">Vintage</h3>
-                    <p class="card-text">Find unique vintage items that add character to your home.</p>
-                    <a href="{% url 'blog' %}" class="btn btn-primary">See Posts</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-md-6 col-lg-3 mb-4">
-            <div class="card">
-                <img src="{% static 'images/small-town.svg' %}" class="card-img-top" alt="Small Town">
-                <div class="card-body">
-                    <h3 class="card-title">Small Town</h3>
-                    <p class="card-text">Connect with local users and discover hidden gems in your area.</p>
-                    {# <a href="{% url 'search_local_posts' %}" class="btn btn-secondary">Search Local Posts</a> #}
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-md-6 col-lg-3 mb-4">
-            <div class="card">
-                <img src="{% static 'images/world.svg' %}" class="card-img-top" alt="World">
-                <div class="card-body">
-                    <h3 class="card-title">Global Reach</h3>
-                    <p class="card-text">Join a global community dedicated to sustainability and reuse.</p>
-                    <a href="{% url 'register' %}" class="btn btn-success">Sign Up</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-md-6 col-lg-3 mb-4">
-            <div class="card">
-                <img src="{% static 'images/dog.svg' %}" class="card-img-top" alt="Dog">
-                <div class="card-body">
-                    <h3 class="card-title">Pet Friendly</h3>
-                    <p class="card-text">Find items for your furry friends and give them a new home.</p>
-                    <a href="{% url 'blog' %}" class="btn btn-warning">See Posts</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="container text-center mt-5">
-    <h2>Modina - Second Hand, is a lifestyle.</h2>
-    <p>Get rid of the things you don't want and find new treasures. Join us in creating a healthy culture of exchange
-        and longevity of items.</p>
 </div>
 {% endblock content %}
+
+{% block script %}
+<script src="{% static 'js/index.js' %}"></script>
+{% endblock script %}
