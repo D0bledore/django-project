@@ -9,10 +9,11 @@ CustomUser = get_user_model()
 # Import models and forms 
 from blog.models import BlogPost
 from blog.forms import BlogPostForm 
-from .forms import ProfileForm, CustomUserCreationForm
+from .forms import ProfileForm, CustomUserCreationForm, CustomAuthenticationForm
 from .models import Profile
 
 class CustomLoginView(LoginView):
+    authentication_form = CustomAuthenticationForm
     template_name = 'accounts/login.html'
 
     def form_valid(self, form):

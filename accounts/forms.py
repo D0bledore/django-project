@@ -1,5 +1,6 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm
+from django.contrib.auth import authenticate
 from .models import CustomUser
 
 class CustomUserCreationForm(UserCreationForm):
@@ -72,3 +73,20 @@ class ProfileForm(forms.ModelForm):
     class Meta:
         model = CustomUser
         fields = ('bio', 'profile_pic')
+
+class CustomAuthenticationForm(AuthenticationForm):
+    username = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Enter your email'}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Enter your password'}))
+
+    def clean(self):
+        email = self.cleaned_data.get('username').lower()
+        password = self.cleaned_data.get('password')
+
+        if email and password:
+            self.user_cache = authenticate(self.request, username=email, password=password)
+            if self.user_cache is None:
+                raise forms.ValidationError("Invalid email or password. Please try again.")
+            else:
+                self.confirm_login_allowed(self.user_cache)
+
+        return self.cleaned_data
