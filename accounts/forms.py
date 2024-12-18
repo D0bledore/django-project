@@ -1,34 +1,37 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from .models import Profile, CustomUser
+from .models import CustomUser
 
 class CustomUserCreationForm(UserCreationForm):
-    email = forms.EmailField(
-        required=True,
-        widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Enter your email'})
-    )
-    username = forms.CharField(
-        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Choose a username'})
-    )
+    email = forms.EmailField(required=True, widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email'}))
+    username = forms.CharField(required=True, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username'}))
     password1 = forms.CharField(
-        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Enter your password'})
+        label="Password",
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password'}),
+        help_text="Your password must contain at least 8 characters, including letters and numbers."
     )
     password2 = forms.CharField(
-        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Confirm your password'})
+        label="Confirm Password",
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Confirm Password'}),
+        help_text="Enter the same password as before, for verification."
+    )
+    gender = forms.ChoiceField(
+        choices=CustomUser.Gender.choices,
+        widget=forms.Select(attrs={'class': 'form-control'})
     )
 
     class Meta:
         model = CustomUser
-        fields = ("email", "username", "password1", "password2")
+        fields = ("email", "username", "password1", "password2", "gender")
 
     def save(self, commit=True):
-        user = super().save(commit=False)
+        user = super(CustomUserCreationForm, self).save(commit=False)
         user.email = self.cleaned_data["email"]
         user.username = self.cleaned_data["username"]
+        user.gender = self.cleaned_data["gender"]
         if commit:
             user.save()
         return user
-        
 
 class CustomUserChangeForm(UserChangeForm):
     email = forms.EmailField(
@@ -37,11 +40,14 @@ class CustomUserChangeForm(UserChangeForm):
     username = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control'})
     )
+    gender = forms.ChoiceField(
+        choices=CustomUser.Gender.choices,
+        widget=forms.Select(attrs={'class': 'form-control'})
+    )
 
     class Meta:
         model = CustomUser
-        fields = ('username', 'email')
-
+        fields = ('username', 'email', 'gender')
 
 class ProfileForm(forms.ModelForm):
     bio = forms.CharField(
@@ -52,5 +58,5 @@ class ProfileForm(forms.ModelForm):
     )
 
     class Meta:
-        model = Profile
-        fields = ['bio', 'profile_pic']
+        model = CustomUser
+        fields = ('bio', 'profile_pic')
