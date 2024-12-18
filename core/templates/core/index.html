@@ -14,44 +14,68 @@
         <h1>A First-Hand Solution for Your Second-Hand Items!</h1>
     </div>
 </div>
-
+{% if user.is_authenticated %}
+<div class="card text-center mt-5 bg-light">
+    <div class="card-body">
+        <h2 class="card-title p-3">
+            Welcome, {{ user.username }}! What would you like to do today?
+        </h2>
+        <a href="{% url 'create_post' %}" class="btn btn-primary m-3 p-3">Create a Post</a>
+    </div>
+</div>
+{% else %}
 <!-- Questionnaire -->
 <section id='question-container-wrapper'>
-    <div id="question1" class="question-container active bg-light text-center">
-        <h2>Is your home overflowing with items you no longer use?</h2>
-        <button class="btn btn-primary answer m-3 p-3" data-next="question1a">Yes, kind of.</button>
+    <div id="question1" class="card question-container active bg-light text-center">
+        <div class="card-body">
+            <h2 class="card-title">Is your home overflowing with items you no longer use?</h2>
+            <button class="btn btn-primary answer m-3 p-3" data-next="question1a">Yes, kind of.</button>
+        </div>
     </div>
 
-    <div id="question1a" class="question-container bg-light text-center">
-        <p>Clutter can make your living space feel cramped and chaotic. It's time to take control and create a more organized and peaceful environment.</p>
-        <button class="btn btn-primary answer m-3 p-3" data-next="question2">OK</button>
+    <div id="question1a" class="card question-container bg-light text-center">
+        <div class="card-body"></div>
+            <p class="card-text">Clutter can make your living space feel cramped and chaotic. It's time to take control and create a more organized and peaceful environment.</p>
+            <button class="btn btn-primary answer m-3 p-3" data-next="question2">OK</button>
+        </div>
     </div>
 
-    <div id="question2" class="question-container bg-light text-center">
-        <h2>Do you feel overwhelmed by the amount of stuff you have?</h2>
-        <button class="btn btn-primary answer m-3 p-3" data-next="question2a">Yes, I do.</button>
+    <div id="question2" class="card question-container bg-light text-center">
+        <div class="card-body"></div>
+            <h2 class="card-title">Do you feel overwhelmed by the amount of stuff you have?</h2>
+            <button class="btn btn-primary answer m-3 p-3" data-next="question2a">Yes, I do.</button>
+        </div>
     </div>
 
-    <div id="question2a" class="question-container bg-light text-center">
-        <p>Having too many items can be stressful and overwhelming. It can make it difficult to find what you need and enjoy your space.</p>
-        <button class="btn btn-primary answer m-3 p-3" data-next="question3">OK</button>
+    <div id="question2a" class="card question-container bg-light text-center">
+        <div class="card-body"></div>
+            <p class="card-text">Having too many items can be stressful and overwhelming. It can make it difficult to find what you need and enjoy your space.</p>
+            <button class="btn btn-primary answer m-3 p-3" data-next="question3">OK</button>
+        </div>
     </div>
 
-    <div id="question3" class="question-container bg-light text-center">
-        <h2>Are you ready to reclaim your space and make some extra cash?</h2>
-        <button class="btn btn-primary answer m-3 p-3" data-next="question3a">I'm ready!</button>
+    <div id="question3" class="card question-container bg-light text-center">
+        <div class="card-body">
+            <h2 class="card-title">Are you ready to reclaim your space and make some extra cash?</h2>
+            <button class="btn btn-primary answer m-3 p-3" data-next="question3a">I'm ready!</button>
+        </div>
     </div>
 
-    <div id="question3a" class="question-container bg-light text-center">
-        <p>Imagine a clutter-free home where you can relax and enjoy your space. Plus, you can make some extra money by selling items you no longer need.</p>
-        <button class="btn btn-primary answer m-3 p-3" data-next="results">OK</button>
+    <div id="question3a" class="card question-container bg-light text-center">
+        <div class="card-body">
+            <p class="card-text">Imagine a clutter-free home where you can relax and enjoy your space. Plus, you can make some extra money by selling items you no longer need.</p>
+            <button class="btn btn-primary answer m-3 p-3" data-next="results">OK</button>
+        </div>
     </div>
 
-    <div id="results" class="question-container bg-light text-center">
-        <h2 class="text-success">Create an Account,<br>Make Money Today.</h2>
-        <a href="{% url 'register' %}" class="btn btn-success m-3 p-3">Sign Up</a>
+    <div id="results" class="card question-container bg-light text-center">
+        <div class="card-body">
+            <h2 class="card-title text-success">Create an Account,<br>Make Money Today.</h2>
+            <a href="{% url 'register' %}" class="btn btn-success m-3 p-3">Sign Up</a>
+        </div>
     </div>
 </section>
+{% endif %}
 
 <div class="container-fluid mt-5">
     <div class="image-container">
