@@ -8,13 +8,58 @@
 {% endblock stylesheet %}
 
 {% block content %}
+<!-- Headline -->
 <div class="container-fluid mt-5">
     <div class="headline-container">
         <h1>A First-Hand Solution for Your Second-Hand Items!</h1>
     </div>
 </div>
+
+<!-- Questionnaire -->
+<section id='question-container-wrapper'>
+    <div id="question1" class="question-container active bg-light text-center">
+        <h2>Is your home overflowing with items you no longer use?</h2>
+        <button class="btn btn-primary answer m-3 p-3" data-next="question1a">Yes, kind of.</button>
+    </div>
+
+    <div id="question1a" class="question-container bg-light text-center">
+        <p>Clutter can make your living space feel cramped and chaotic. It's time to take control and create a more organized and peaceful environment.</p>
+        <button class="btn btn-primary answer m-3 p-3" data-next="question2">OK</button>
+    </div>
+
+    <div id="question2" class="question-container bg-light text-center">
+        <h2>Do you feel overwhelmed by the amount of stuff you have?</h2>
+        <button class="btn btn-primary answer m-3 p-3" data-next="question2a">Yes, I do.</button>
+    </div>
+
+    <div id="question2a" class="question-container bg-light text-center">
+        <p>Having too many items can be stressful and overwhelming. It can make it difficult to find what you need and enjoy your space.</p>
+        <button class="btn btn-primary answer m-3 p-3" data-next="question3">OK</button>
+    </div>
+
+    <div id="question3" class="question-container bg-light text-center">
+        <h2>Are you ready to reclaim your space and make some extra cash?</h2>
+        <button class="btn btn-primary answer m-3 p-3" data-next="question3a">I'm ready!</button>
+    </div>
+
+    <div id="question3a" class="question-container bg-light text-center">
+        <p>Imagine a clutter-free home where you can relax and enjoy your space. Plus, you can make some extra money by selling items you no longer need.</p>
+        <button class="btn btn-primary answer m-3 p-3" data-next="results">OK</button>
+    </div>
+
+    <div id="results" class="question-container bg-light text-center">
+        <h2 class="text-success">Create an Account,<br>Make Money Today.</h2>
+        <a href="{% url 'register' %}" class="btn btn-success m-3 p-3">Sign Up</a>
+    </div>
+</section>
+
+<div class="container-fluid mt-5">
+    <div class="image-container">
+    </div>
+</div>
+
 {% endblock content %}
 
-{% block script %}
+{% block scripts %}
 <script src="{% static 'js/index.js' %}"></script>
-{% endblock script %}
+{% endblock scripts %}
