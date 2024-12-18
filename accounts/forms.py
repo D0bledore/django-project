@@ -24,9 +24,15 @@ class CustomUserCreationForm(UserCreationForm):
         model = CustomUser
         fields = ("email", "username", "password1", "password2", "gender")
 
+    def clean_email(self):
+        email = self.cleaned_data.get('email').lower()
+        if CustomUser.objects.filter(email=email).exists():
+            raise forms.ValidationError("A user with that email already exists.")
+        return email
+
     def save(self, commit=True):
         user = super(CustomUserCreationForm, self).save(commit=False)
-        user.email = self.cleaned_data["email"]
+        user.email = self.cleaned_data["email"].lower()
         user.username = self.cleaned_data["username"]
         user.gender = self.cleaned_data["gender"]
         if commit:
@@ -48,6 +54,12 @@ class CustomUserChangeForm(UserChangeForm):
     class Meta:
         model = CustomUser
         fields = ('username', 'email', 'gender')
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email').lower()
+        if CustomUser.objects.filter(email=email).exists():
+            raise forms.ValidationError("A user with that email already exists.")
+        return email
 
 class ProfileForm(forms.ModelForm):
     bio = forms.CharField(
