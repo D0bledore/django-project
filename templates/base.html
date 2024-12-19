@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <link rel="stylesheet" href="{% static 'css/layout.css' %}">
     <link rel="stylesheet" href="{% static 'css/components.css' %}">
-    <link rel="stylesheet" href="{% static 'css/utilities.css' %}">
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/favicon/favicon-32x32.png' %}">
     {% block stylesheet %}
@@ -27,8 +26,11 @@
                 <div class="d-flex align-items-center w-100">
 
                     <!-- Left (phone) Logo -->
-                    <a class="navbar-brand" href="{% if user.is_authenticated %}{% url 'profile' request.user.id %}{% else %}{% url 'login' %}{% endif %}" title="Login to account">
-                        <img src="{% if user.is_authenticated %}{% if request.user.gender == 'F' %}{% static 'images/avatar/female_avatar.svg' %}{% else %}{% static 'images/avatar/male_avatar.svg' %}{% endif %}{% else %}{% static 'images/logo/logo.png' %}{% endif %}" alt="logo" class="logo-img">
+                    <a class="navbar-brand"
+                        href="{% if user.is_authenticated %}{% url 'profile' request.user.id %}{% else %}{% url 'login' %}{% endif %}"
+                        title="Login to account">
+                        <img src="{% if user.is_authenticated %}{% if request.user.gender == 'F' %}{% static 'images/avatar/female_avatar.svg' %}{% else %}{% static 'images/avatar/male_avatar.svg' %}{% endif %}{% else %}{% static 'images/logo/logo.png' %}{% endif %}"
+                            alt="logo" class="logo-img">
                     </a>
 
                     <!-- Center Modina Image -->
@@ -50,25 +52,26 @@
                         <div class="collapse navbar-collapse" id="navbarNav">
                             <ul class="navbar-nav">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{% url 'blog' %}">Blog</a>
+                                    <a class="nav-link" href="{% url 'posts' %}">View Posts</a>
                                 </li>
                                 {% if user.is_authenticated %}
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{% url 'profile' request.user.id %}">Profile</a>
+                                    <a class="nav-link" href="{% url 'create_post' %}">Create Post</a>
                                 </li>
                                 <li class="nav-item">
-                                    <form method="post" action="{% url 'logout' %}">
+                                    <a class="nav-link" href="{% url 'profile' request.user.id %}">Your Profile</a>
+                                </li>
+                                <li class="nav-item">
+                                    <form method="post" action="{% url 'logout' %}" style="display: inline;">
                                         {% csrf_token %}
-                                        <button type="submit">Logout</button>
-                                    </form>                                </li>
+                                        <button type="submit" class="nav-link btn btn-link">Logout</button>
+                                    </form>
+                                </li>
                                 {% else %}
                                 <li class="nav-item">
                                     <a class="nav-link" href="{% url 'login' %}">Login</a>
                                 </li>
                                 {% endif %}
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{% url 'core_about' %}">About</a>
-                                </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="{% url 'core_contact' %}">Contact</a>
                                 </li>
@@ -80,6 +83,15 @@
         </nav>
     </header>
 
+    {% if messages %}
+    <div class="container mt-3 django-message">
+        {% for message in messages %}
+        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %}" role="alert">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
 
     <!-- Content Block -->
     {% block content %}
@@ -92,5 +104,9 @@
     {% block scripts %}
     {% endblock scripts %}
 </body>
+
+<footer class="container-fluid mt-5 text-center">
+    <p>&copy; 2024 All Rights Reserved. <a href="https://github.com/d0bledore">GitHub Page</a></p>
+</footer>
 
 </html>
