@@ -11,19 +11,23 @@
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card">
-                <div class="card-header text-center">
-                    <h2>Create a Post</h2>
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white text-center">
+                    <h2>Create Post</h2>
                 </div>
                 <div class="card-body">
                     {% if user.is_authenticated %}
-                    <form method="post" id="createPostForm" enctype="multipart/form-data" data-register-url="{% url 'register' %}" data-is-authenticated="{{ user.is_authenticated }}">
+                    <form method="post" id="createPostForm" enctype="multipart/form-data"
+                        data-register-url="{% url 'register' %}" data-is-authenticated="{{ user.is_authenticated }}">
                         {% csrf_token %}
                         <div class="form-step" style="display: block;">
                             <div class="mb-3">
                                 <label for="title" class="form-label">What is it that you want to sell?</label>
                                 {{ form.title }}
                             </div>
+                            <button type="button" class="btn btn-primary next-step">Next</button>
+                        </div>
+                        <div class="form-step" style="display: none;">
                             <div class="mb-3">
                                 <label for="category" class="form-label">Category</label>
                                 {{ form.category }}
@@ -32,28 +36,34 @@
                         </div>
                         <div class="form-step" style="display: none;">
                             <div class="mb-3">
-                                <label for="condition" class="form-label">What is the condition of the item? (1-10)</label>
+                                <label for="condition" class="form-label">What is the condition of the item?
+                                    (1-10)</label>
+                                <br><small class="form-text text-muted">Slide the ball to indicate the
+                                    condition.</small>
                                 {{ form.condition }}
                             </div>
                             <button type="button" class="btn btn-primary next-step">Next</button>
                         </div>
                         <div class="form-step" style="display: none;">
                             <div class="mb-3">
-                                <label for="content" class="form-label">What are the design features that make the item unique or appealing?</label>
+                                <label for="content" class="form-label">What are the design features that make the item
+                                    unique or appealing?</label>
                                 {{ form.content }}
                             </div>
                             <button type="button" class="btn btn-primary next-step">Next</button>
                         </div>
                         <div class="form-step" style="display: none;">
                             <div class="mb-3">
-                                <label for="price" class="form-label">What is the price you want to set for the item?</label>
+                                <label for="price" class="form-label">What is the price you want to set for the
+                                    item?</label>
                                 {{ form.price }}
                             </div>
                             <button type="button" class="btn btn-primary next-step">Next</button>
                         </div>
                         <div class="form-step" style="display: none;">
                             <div class="mb-3">
-                                <label for="sale_handling" class="form-label">How/when would you like to handle the sale?</label>
+                                <label for="sale_handling" class="form-label">How/when would you like to handle the
+                                    sale?</label>
                                 {{ form.sale_handling }}
                             </div>
                             <button type="button" class="btn btn-primary next-step">Next</button>
@@ -68,29 +78,39 @@
                         <div class="form-step" style="display: none;">
                             <div class="mb-3">
                                 <label for="image-upload" class="form-label">Upload Images</label>
-                                <input type="file" id="image-upload" name="image" class="form-control" multiple>
+                                <input type="file" id="image-upload" name="image" class="form-control" multiple required>
                             </div>
                             <div class="row" id="image-preview"></div>
-                            {% if form.errors %}
-                                <div class="alert alert-danger">
-                                    {% for field in form %}
-                                        {% for error in field.errors %}
-                                            <p>{{ error }}</p>
-                                        {% endfor %}
-                                    {% endfor %}
-                                    {% for error in form.non_field_errors %}
-                                        <p>{{ error }}</p>
-                                    {% endfor %}
-                                </div>
-                            {% endif %}
                             <button type="button" class="btn btn-primary next-step">Next</button>
                         </div>
                         <div class="form-step" style="display: none;">
-                            <button type="submit" class="btn btn-success btn-block">Submit</button>
+                            <h3 class="text-center">Review Your Post</h3>
+                            <p><strong>Title:</strong> <span id="review-title"></span></p>
+                            <p><strong>Category:</strong> <span id="review-category"></span></p>
+                            <p><strong>Condition:</strong> <span id="review-condition"></span>/10</p>
+                            <p><strong>Price:</strong> <span id="review-price"></span></p>
+                            <p><strong>Sale Handling:</strong> <span id="review-sale_handling"></span></p>
+                            <p><strong>Location:</strong> <span id="review-location"></span></p>
+                            <p><strong>Content:</strong> <span id="review-content"></span></p>
+                            <p><strong>Image:</strong> <span id="review-image"></span></p>
+                            {% if form.errors %}
+                            <div class="alert alert-danger">
+                                {% for field in form %}
+                                {% for error in field.errors %}
+                                <p>{{ error }}</p>
+                                {% endfor %}
+                                {% endfor %}
+                                {% for error in form.non_field_errors %}
+                                <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                            <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
                     </form>
                     {% else %}
-                    <p class="text-center">You need to <a href="{% url 'register' %}">register</a> or <a href="{% url 'login' %}">login</a> to create a post.</p>
+                    <p class="text-center">You need to <a href="{% url 'register' %}">register</a> or <a
+                            href="{% url 'login' %}">login</a> to create a post.</p>
                     <img src="{% static 'images/support.svg' %}" alt="support" class="img-fluid mx-auto d-block">
                     {% endif %}
                 </div>

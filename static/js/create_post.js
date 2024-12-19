@@ -1,3 +1,27 @@
+// Function to update review section
+function updateReview() {
+    document.getElementById('review-title').innerText = document.getElementById('id_title').value;
+    document.getElementById('review-category').innerText = document.getElementById('id_category').value;
+    document.getElementById('review-condition').innerText = document.getElementById('id_condition').value;
+    document.getElementById('review-price').innerText = document.getElementById('id_price').value;
+    document.getElementById('review-sale_handling').innerText = document.getElementById('id_sale_handling').value;
+    document.getElementById('review-location').innerText = document.getElementById('id_location').value;
+    document.getElementById('review-content').innerText = document.getElementById('id_content').value;
+
+    // For images, display a message or image preview if available
+    const imagePreview = document.getElementById('image-preview');
+    const images = imagePreview.querySelectorAll('img');
+    
+    if (images.length > 0) {
+        // Display the number of images uploaded
+        document.getElementById('review-image').innerText = `Uploaded ${images.length} image(s)`;
+        // Optionally, you could also display a preview of the first image
+        // document.getElementById('review-image').innerHTML = `<img src="${images[0].src}" style="width: 100px;">`;
+    } else {
+        document.getElementById('review-image').innerText = 'No images uploaded';
+    }
+}
+
 // Function to show the current form step
 function showStep(step) {
     const formSteps = document.querySelectorAll('.form-step');
@@ -100,17 +124,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
     nextStepButtons.forEach(button => {
         button.addEventListener('click', function () {
-            // Validate inputs for the current step without disabling the button
             const isValidStep = validateStep(currentStep);
-
-            // If valid, move to the next step
+            
             if (isValidStep) {
+                // Update review before moving to next step if it's the last step
+                if (currentStep === formSteps.length - 2) { // Second to last step is where we update review
+                    updateReview();
+                }
                 currentStep++;
                 if (currentStep < formSteps.length) {
                     showStep(currentStep);
                 }
             } else {
-                // Optionally scroll to the first invalid input
                 const firstInvalidInput = formSteps[currentStep].querySelector(':invalid');
                 if (firstInvalidInput) {
                     firstInvalidInput.focus();
