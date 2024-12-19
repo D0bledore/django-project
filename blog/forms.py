@@ -15,7 +15,7 @@ class BlogPostForm(forms.ModelForm):
             'price': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Enter the price', 'required': 'required'}),
             'sale_handling': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'For example: "Pickup, as soon as possible."', 'required': 'required'}),
             'location': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter the location', 'required': 'required'}),
-            'image': forms.FileInput(attrs={'class': 'form-control', 'required': 'required'}),
+            'image': forms.FileInput(attrs={'class': 'form-control', 'required': False}),
         }
 
     def clean_title(self):
