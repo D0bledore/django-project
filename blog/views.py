@@ -5,6 +5,7 @@ from django.contrib import messages
 # Import models and forms
 from .models import BlogPost
 from .forms import BlogPostForm
+from accounts.models import CustomUser
 
 
 def blog_index(request):
@@ -17,6 +18,7 @@ def blog_post(request):
     return render(request, 'blog/posts.html', content)
 
 
+@login_required
 def create_post(request):
     if request.method == 'POST':
         form = BlogPostForm(request.POST, request.FILES)
@@ -25,6 +27,7 @@ def create_post(request):
                 post = form.save(commit=False)
                 post.author = request.user
                 post.save()
+                messages.success(request, 'Your post has been created successfully!')
                 return redirect('user_posts', user_id=request.user.id)
             except Exception as e:
                 print(f"Error saving post: {e}")  # Log the error
@@ -45,24 +48,37 @@ def post_detail(request, post_id):
 
 @login_required
 def edit_post(request, post_id):
-    post = get_object_or_404(BlogPost, id=post_id, author=request.user)
-    
+    post = get_object_or_404(BlogPost, id=post_id)
+
     if request.method == 'POST':
         form = BlogPostForm(request.POST, request.FILES, instance=post)
         if form.is_valid():
-            form.save()
-            return redirect('post_detail', post_id=post.id)
+            try:
+                form.save()  # Save changes including new image
+                messages.success(request, 'Your post has been updated successfully!')
+                return redirect('post_detail', post_id=post.id)
+            except Exception as e:
+                messages.error(request, 'There was an error uploading your image.')
+        else:
+            messages.error(request, 'Please correct the errors below.')
     else:
         form = BlogPostForm(instance=post)
 
-    return render(request, 'blog/edit_post.html', {'form': form, 'post': post})
-
+    return render(request, 'blog/edit_post.html', {'form': form})
 
 
 @login_required
 def delete_post(request, post_id):
-    post = get_object_or_404(BlogPost, id=post_id, author=request.user)
+    post = get_object_or_404(BlogPost, id=post_id)
     if request.method == 'POST':
         post.delete()
-        return redirect('posts')
-    return render(request, 'blog/delete_post.html', {'post': post})
+        messages.success(request, 'The post has been deleted successfully!')
+        return redirect('user_posts', user_id=request.user.id)
+    return render(request, 'blog/confirm_delete.html', {'post': post})
+
+
+@login_required
+def view_posts(request, user_id):
+    user = get_object_or_404(CustomUser, id=user_id)
+    posts = BlogPost.objects.filter(author=user)
+    return render(request, 'blog/user_posts.html', {'posts': posts, 'profile_user': user})
