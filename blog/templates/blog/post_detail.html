@@ -10,7 +10,13 @@
         </div>
         <div class="card-body">
             {% if post.image %}
-            <img src="{{ post.image.url }}" alt="Image">           
+            <div class="card mb-3 border-0">
+                <div class="row no-gutters justify-content-center">
+                    <div class="col-md-4">
+                        <img src="{{ post.image.url }}" class="card-img border-0" alt="{{ post.title }}-image">
+                    </div>
+                </div>
+            </div>
             {% else %}
             <p>No image available</p>
             {% endif %}
@@ -23,11 +29,11 @@
             <p><strong>Author:</strong> {{ post.author }}</p>
             <p><strong>Created at:</strong> {{ post.created_at }}</p>
             <p><strong>Last updated:</strong> {{ post.updated_at }}</p>
+            {% if user == post.author %}
+            <a href="{% url 'edit_post' post.id %}" class="btn btn-warning">Edit Post</a>
+            <a href="{% url 'delete_post' post.id %}" class="btn btn-danger">Delete Post</a>
+            {% endif %}
         </div>
-        {% if user == post.author %}
-        <a href="{% url 'edit_post' post.id %}" class="btn btn-secondary">Edit Post</a>
-        <a href="{% url 'delete_post' post.id %}" class="btn btn-danger">Delete Post</a>
-        {% endif %}
     </div>
 </div>
 {% endblock content %}
