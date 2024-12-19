@@ -1,3 +1,8 @@
+.img-card {
+    max-height: 200px;
+    object-fit: cover;
+}
+
 .card {
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -5,10 +10,14 @@
 }
 
 .card-header {
-    background-color: #f8f9fa;
+    background-color: none;
     border-bottom: 1px solid #e9ecef;
     padding: 20px;
     border-radius: 10px 10px 0 0;
+}
+
+.card-header:first-child {
+    border-radius: 10px 10px 0 0 !important;
 }
 
 .card-body {
@@ -36,7 +45,7 @@
 .btn-secondary {
     background-color: var(--secondary-color);
     border-color: var(--secondary-color);
-    color: var(--text-color);
+    color: white;
 }
 .btn-secondary:hover {
     background-color: var(--accent-color);

@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap');
 
+/* Headline Image Container */
 .headline-container {
     position: relative;
     background-image: url("../images/tv-room.webp");
@@ -34,8 +35,9 @@
 /* Questionnaire Container */
 .question-container {
     display: none; 
-    width: 100%; 
+    width: 96%; 
     max-width: 600px; 
+    height: 250px;
     margin: 20px auto;
     padding: 20px;
     border: 1px solid #ccc;
@@ -47,7 +49,7 @@
     display: block; 
 }
 
-/* Image Container */
+/* Bottom Image Container */
 .image-container {
     position: relative;
     background-image: url("../images/living-room.jpg");
@@ -77,4 +79,31 @@
     font-weight: 700;
     z-index: 2;
     padding: 0 0.8rem;
+}
+
+/* Container */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* Contact Us Container */
+#contact-us {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.contact-card {
+    max-width: 800px;
+    width: 100%;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .contact-card {
+        max-width: 100%;
+    }
 }
