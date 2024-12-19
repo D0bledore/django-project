@@ -17,7 +17,7 @@ class BlogPost(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    image = models.ImageField(storage=S3Boto3Storage(), upload_to='media/')
+    image = models.ImageField(storage=S3Boto3Storage(), upload_to='media/', blank=True)
     location = models.CharField(max_length=100)
 
     def __str__(self):
