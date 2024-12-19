@@ -8,13 +8,13 @@ class BlogPostForm(forms.ModelForm):
         model = BlogPost
         fields = ['title', 'content', 'category', 'condition', 'price', 'sale_handling', 'location', 'image']
         widgets = {
-            'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter the title of your post', 'required': 'required'}),
-            'content': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Enter the content of your post', 'required': 'required'}),
-            'category': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter the category', 'required': 'required'}),
-            'condition': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Enter the condition (1-10)', 'type': 'range', 'min': '1', 'max': '10', 'required': 'required'}),
-            'price': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Enter the price', 'required': 'required'}),
-            'sale_handling': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'For example: "Pickup, as soon as possible."', 'required': 'required'}),
-            'location': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter the location', 'required': 'required'}),
+            'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter the title of your post'}),
+            'content': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Enter the content of your post'}),
+            'category': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter the category'}),
+            'condition': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Enter the condition (1-10)', 'type': 'range', 'min': '1', 'max': '10'}),
+            'price': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Enter the price', 'max_length': 10}),
+            'sale_handling': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'For example: Shipping, Pickup/Meetup'}),
+            'location': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter the location'}),
             'image': forms.FileInput(attrs={'class': 'form-control', 'required': False}),
         }
 
@@ -31,6 +31,9 @@ class BlogPostForm(forms.ModelForm):
         # Ensure price has up to two decimal places
         if not re.match(r'^\d+(\.\d{1,2})?$', str(price)):
             raise ValidationError("Price must have up to two decimal places.")
+        # Ensure price has a maximum length of 10
+        if len(str(price)) > 10:
+            raise ValidationError("Price cannot exceed 10 characters.")
         return price
 
     def clean_image(self):

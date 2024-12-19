@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Create Post{% endblock title %}
+{% block title %}Modina | Create a Post{% endblock title %}
 
 {% block stylesheet %}
 <link rel="stylesheet" href="{% static 'css/create_post.css' %}">
@@ -13,7 +13,7 @@
         <div class="col-md-8">
             <div class="card shadow-lg">
                 <div class="card-header bg-primary text-white text-center">
-                    <h2>Create Post</h2>
+                    <h2>Create a Post</h2>
                 </div>
                 <div class="card-body">
                     {% if user.is_authenticated %}
@@ -34,6 +34,7 @@
                     <form method="post" id="createPostForm" enctype="multipart/form-data"
                         data-register-url="{% url 'register' %}" data-is-authenticated="{{ user.is_authenticated }}">
                         {% csrf_token %}
+                        <!-- Step 1: Title -->
                         <div class="form-step" style="display: block;">
                             <div class="mb-3">
                                 <label for="title" class="form-label">What is it that you want to sell?</label>
@@ -41,6 +42,7 @@
                             </div>
                             <button type="button" class="btn btn-primary next-step">Next</button>
                         </div>
+                        <!-- Step 2: Category -->
                         <div class="form-step" style="display: none;">
                             <div class="mb-3">
                                 <label for="category" class="form-label">Category</label>
@@ -49,6 +51,7 @@
                             <button type="button" class="btn btn-primary next-step">Next</button>
                             <button type="button" class="btn btn-secondary previous-step">Previous</button>
                         </div>
+                        <!-- Step 3: Condition -->
                         <div class="form-step" style="display: none;">
                             <div class="mb-3">
                                 <label for="condition" class="form-label">What is the condition of the item? (1-10)</label>
@@ -58,6 +61,7 @@
                             <button type="button" class="btn btn-primary next-step">Next</button>
                             <button type="button" class="btn btn-secondary previous-step">Previous</button>
                         </div>
+                        <!-- Step 4: Content -->
                         <div class="form-step" style="display: none;">
                             <div class="mb-3">
                                 <label for="content" class="form-label">What are the design features that make the item unique or appealing?</label>
@@ -66,6 +70,7 @@
                             <button type="button" class="btn btn-primary next-step">Next</button>
                             <button type="button" class="btn btn-secondary previous-step">Previous</button>
                         </div>
+                        <!-- Step 5: Price -->
                         <div class="form-step" style="display: none;">
                             <div class="mb-3">
                                 <label for="price" class="form-label">Price</label>
@@ -74,6 +79,7 @@
                             <button type="button" class="btn btn-primary next-step">Next</button>
                             <button type="button" class="btn btn-secondary previous-step">Previous</button>
                         </div>
+                        <!-- Step 6: Sale Handling -->
                         <div class="form-step" style="display: none;">
                             <div class="mb-3">
                                 <label for="sale_handling" class="form-label">Sale Handling</label>
@@ -82,6 +88,7 @@
                             <button type="button" class="btn btn-primary next-step">Next</button>
                             <button type="button" class="btn btn-secondary previous-step">Previous</button>
                         </div>
+                        <!-- Step 7: Location -->
                         <div class="form-step" style="display: none;">
                             <div class="mb-3">
                                 <label for="location" class="form-label">Location</label>
@@ -90,6 +97,7 @@
                             <button type="button" class="btn btn-primary next-step">Next</button>
                             <button type="button" class="btn btn-secondary previous-step">Previous</button>
                         </div>
+                        <!-- Step 8: Image -->
                         <div class="form-step" style="display: none;">
                             <div class="mb-3">
                                 <label for="image" class="form-label">Image</label>
@@ -98,6 +106,7 @@
                             <button type="button" class="btn btn-primary next-step">Next</button>
                             <button type="button" class="btn btn-secondary previous-step">Previous</button>
                         </div>
+                        <!-- Step 9: Review -->
                         <div class="form-step" style="display: none;">
                             <h3>Review Your Post</h3>
                             <div id="form-errors" class="alert alert-danger" style="display: none;"></div>
