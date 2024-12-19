@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.forms import AuthenticationForm
@@ -11,6 +12,7 @@ from blog.models import BlogPost
 from blog.forms import BlogPostForm 
 from .forms import ProfileForm, CustomUserCreationForm, CustomAuthenticationForm
 from .models import Profile
+
 
 class CustomLoginView(LoginView):
     authentication_form = CustomAuthenticationForm
@@ -47,12 +49,10 @@ def login_view(request):
 
 def custom_logout(request):
     if request.method == 'POST':
-        referer = request.META.get('HTTP_REFERER', '')
         logout(request)
-        if 'profile' in referer:
-            return render(request, 'accounts/logout.html')  
-        return redirect('index') 
-    return redirect('index') 
+        messages.success(request, 'You have been logged out successfully.')
+        return redirect('index')
+    return redirect('index')
 
 
 @login_required
@@ -61,37 +61,31 @@ def profile(request, user_id):
     profile, created = Profile.objects.get_or_create(user=user)
     posts = BlogPost.objects.filter(author=user)
     return render(request, 'accounts/profile.html', {'posts': posts, 'profile': profile})
-    
 
-@login_required
-def view_posts(request, user_id):
-    user = get_object_or_404(CustomUser, id=user_id)
-    posts = BlogPost.objects.filter(author=user)
-    return render(request, 'blog/user_posts.html', {'posts': posts, 'profile_user': user})
-
-
-@login_required
-def manage_posts(request):
-    posts = BlogPost.objects.filter(author=request.user)
-    return render(request, 'blog/manage_posts.html', {'posts': posts})
-
-
-@login_required
-def publish_post(request, post_id):
-    post = get_object_or_404(BlogPost, id=post_id, author=request.user)
-    post.is_published = True
-    post.save()
-    return redirect('user_posts')
 
 @login_required
 def edit_profile(request, user_id):
-    user = get_object_or_404(CustomUser, id=user_id)
-    profile = get_object_or_404(Profile, user=user)
+    user = get_object_or_404(CustomUser, id=user_id)  
+    profile, created = Profile.objects.get_or_create(user=user)
+
     if request.method == 'POST':
-        form = ProfileForm(request.POST, request.FILES, instance=profile)
+        form = ProfileForm(request.POST, request.FILES, instance=profile, user=user)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Your profile has been updated successfully!')
+            print("Uploaded files:", request.FILES)
+            print("Profile picture URL:", profile.profile_pic.url) 
             return redirect('profile', user_id=user.id)
+        else:
+            messages.error(request, 'Please correct the errors below.')
     else:
-        form = ProfileForm(instance=profile)
-    return render(request, 'accounts/edit_profile.html', {'form': form, 'profile': profile})
+        form = ProfileForm(instance=profile, user=user)
+
+    return render(request, 'accounts/edit_profile.html', {'form': form})
+
+
+def delete_profile(request, user_id):
+    user = get_object_or_404(CustomUser, id=user_id)
+    user.delete()
+    messages.success(request, 'Your account has been deleted successfully.')
+    return redirect('index')
