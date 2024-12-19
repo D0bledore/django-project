@@ -9,14 +9,9 @@ function updateReview() {
     document.getElementById('review-content').innerText = document.getElementById('id_content').value;
 
     // For images, display a message or image preview if available
-    const imagePreview = document.getElementById('image-preview');
-    const images = imagePreview.querySelectorAll('img');
-    
-    if (images.length > 0) {
-        // Display the number of images uploaded
-        document.getElementById('review-image').innerText = `Uploaded ${images.length} image(s)`;
-        // Optionally, you could also display a preview of the first image
-        // document.getElementById('review-image').innerHTML = `<img src="${images[0].src}" style="width: 100px;">`;
+    const imageUpload = document.getElementById('id_image');
+    if (imageUpload.files.length > 0) {
+        document.getElementById('review-image').innerText = imageUpload.files[0].name;
     } else {
         document.getElementById('review-image').innerText = 'No images uploaded';
     }
@@ -63,7 +58,7 @@ function validateImage(file) {
 // Function to preview images
 function previewImages() {
     const imagePreview = document.getElementById('image-preview');
-    const imageUpload = document.getElementById('image-upload');
+    const imageUpload = document.getElementById('id_image');
     
     let errorDisplay = document.querySelector('.alert.alert-danger');
     
@@ -143,4 +138,25 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     });
+
+    // Add event listeners to previous step buttons
+    const previousStepButtons = document.querySelectorAll('.previous-step');
+    previousStepButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            if (currentStep > 0) {
+                currentStep--;
+                showStep(currentStep);
+            }
+        });
+    });
+
+    // Add event listener to enforce maximum length of 8 digits for price input
+    const priceInput = document.getElementById('id_price');
+    if (priceInput) {
+        priceInput.addEventListener('input', function () {
+            if (priceInput.value.length > 8) {
+                priceInput.value = priceInput.value.slice(0, 8);
+            }
+        });
+    }
 });
