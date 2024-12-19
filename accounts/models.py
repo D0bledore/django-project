@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from storages.backends.s3boto3 import S3Boto3Storage
 
 class CustomUser(AbstractUser):
     class Gender(models.TextChoices):
@@ -10,7 +11,7 @@ class CustomUser(AbstractUser):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
     bio = models.TextField(blank=True, null=True)
-    profile_pic = models.ImageField(upload_to='profile_pics/', blank=True, null=True)
+    profile_pic = models.ImageField(storage=S3Boto3Storage(), upload_to='media/profile_pics/', blank=True, null=True)
     gender = models.CharField(max_length=1, choices=Gender.choices, blank=True, null=True)
 
     def __str__(self):
@@ -18,8 +19,8 @@ class CustomUser(AbstractUser):
 
 class Profile(models.Model):
     user = models.OneToOneField('CustomUser', on_delete=models.CASCADE)
-    bio = models.TextField(max_length=500, blank=True)
-    profile_pic = models.ImageField(upload_to='profile_pics', blank=True)
+    bio = models.TextField(max_length=500, blank=True, null=True)
+    profile_pic = models.ImageField(storage=S3Boto3Storage(), upload_to='media/profile_pics/', blank=True, null=True)
 
     def __str__(self):
         return self.user.username

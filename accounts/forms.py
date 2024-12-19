@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm
 from django.contrib.auth import authenticate
-from .models import CustomUser
+from .models import CustomUser, Profile
 
 class CustomUserCreationForm(UserCreationForm):
     email = forms.EmailField(required=True, widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email'}))
@@ -40,15 +40,18 @@ class CustomUserCreationForm(UserCreationForm):
             user.save()
         return user
 
-class CustomUserChangeForm(UserChangeForm):
+class CustomUserChangeForm(forms.ModelForm):
     email = forms.EmailField(
-        widget=forms.EmailInput(attrs={'class': 'form-control'})
+        required=False,
+        widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email'})
     )
     username = forms.CharField(
-        widget=forms.TextInput(attrs={'class': 'form-control'})
+        required=False,
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username'})
     )
     gender = forms.ChoiceField(
         choices=CustomUser.Gender.choices,
+        required=False,
         widget=forms.Select(attrs={'class': 'form-control'})
     )
 
@@ -63,16 +66,72 @@ class CustomUserChangeForm(UserChangeForm):
         return email
 
 class ProfileForm(forms.ModelForm):
+    email = forms.EmailField(
+        required=False, 
+        widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email'})
+    )
+    username = forms.CharField(
+        required=False, 
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username'})
+    )
+    gender = forms.ChoiceField(
+        choices=CustomUser.Gender.choices, 
+        required=False, 
+        widget=forms.Select(attrs={'class': 'form-control'})
+    )
     bio = forms.CharField(
-        widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 3})
+        required=False, 
+        widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'placeholder': 'Bio'})
     )
     profile_pic = forms.ImageField(
+        required=False, 
         widget=forms.FileInput(attrs={'class': 'form-control'})
     )
 
     class Meta:
-        model = CustomUser
-        fields = ('bio', 'profile_pic')
+        model = Profile
+        fields = ['bio', 'profile_pic']
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super(ProfileForm, self).__init__(*args, **kwargs)
+        if user:
+            self.fields['email'].initial = user.email
+            self.fields['username'].initial = user.username
+            self.fields['gender'].initial = user.gender
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if email:
+            email = email.lower()
+            if CustomUser.objects.filter(email__iexact=email).exclude(id=self.instance.user.id).exists():
+                raise forms.ValidationError("A user with that email already exists.")
+        return email
+
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+        if username:
+            username = username.lower()
+            if CustomUser.objects.filter(username__iexact=username).exclude(id=self.instance.user.id).exists():
+                raise forms.ValidationError("A user with that username already exists.")
+        return username
+
+    def save(self, commit=True):
+        profile = super(ProfileForm, self).save(commit=False)
+        user = profile.user  
+        if user:
+            if self.cleaned_data['email']:
+                user.email = self.cleaned_data['email'].lower()
+            if self.cleaned_data['username']:
+                user.username = self.cleaned_data['username'].lower()
+            if self.cleaned_data['gender']:
+                user.gender = self.cleaned_data['gender']
+            if commit:
+                user.save()
+                profile.save()  
+        return profile
+
+    
 
 class CustomAuthenticationForm(AuthenticationForm):
     username = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Enter your email'}))
