@@ -15,8 +15,13 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
+let firstClick = true;
+
 document.querySelectorAll('.answer').forEach(wrapper => {
     wrapper.addEventListener('click', function () {
-        this.scrollIntoView({ behavior: 'smooth' });
+        if (firstClick) {
+            this.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            firstClick = false;
+        }
     });
 });

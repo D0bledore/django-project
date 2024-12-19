@@ -1,14 +1,14 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib import messages
+
 
 # Create your views here.
 def core_index(request):
     return render(request, 'core/index.html')
 
 
-def core_about(request):
-    return render(request, 'core/about.html')
-
-
 def core_contact(request):
+    if request.method == 'POST':
+        messages.success(request, 'Your message has been sent successfully!')
+        return redirect('index') 
     return render(request, 'core/contact.html')
-

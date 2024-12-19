@@ -18,9 +18,10 @@
 <div class="card text-center mt-5 bg-light">
     <div class="card-body">
         <h2 class="card-title p-3">
-            Welcome, {{ user.username }}! What would you like to do today?
+            Welcome, {{ user.username|capfirst }}!<br>What would you like to do today?
         </h2>
         <a href="{% url 'create_post' %}" class="btn btn-primary m-3 p-3">Create a Post</a>
+        <a href="{% url 'posts' %}" class="btn btn-secondary m-3 p-3">View Posts</a>
     </div>
 </div>
 {% else %}
@@ -77,9 +78,19 @@
 </section>
 {% endif %}
 
-<div class="container-fluid mt-5">
-    <div class="image-container">
+<div id="about-us" class="container mt-5">
+    <div class="image-container text-center">
+        <h2>About Us</h2>
     </div>
+    <div class="card bg-light text-center mt-5 mx-auto" style="max-width: 800px;">
+        <div class="card-body">
+            <p class="card-text">We are dedicated to helping you declutter your home and make some extra cash by selling your second-hand items. Join our community and start your journey towards a more organized and profitable lifestyle today!</p>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-5 text-center">
+    <a href="{% url 'core_contact' %}" class="btn btn-info btn-lg">Contact Us</a>
 </div>
 
 {% endblock content %}
