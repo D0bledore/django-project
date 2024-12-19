@@ -11,4 +11,5 @@ __pycache__
 .env
 
 # Ignore media files
-media/
+media/profile_pics/
+profile_pics/
