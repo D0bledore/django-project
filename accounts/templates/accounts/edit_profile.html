@@ -1,13 +1,91 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{% block title %}Profile Settings{% endblock %}
+
+{% block title %}Modina | Profile Settings{% endblock %}
 
 {% block content %}
+
 <div class="container mt-5">
-    <h2>Profile Settings</h2>
-    <div class="list-group">
-        <a href="{#% url 'change_password' %#}" class="list-group-item list-group-item-action">Change Password</a>
-        <a href="{#% url 'delete_account' %#}" class="list-group item list-group-item-action">Delete Account</a>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white text-center">
+                    <h2>Edit Profile</h2>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {% if form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            {{ form.non_field_errors }}
+                        </div>
+                        {% endif %}
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <div class="input-group">
+                                <span id="email-display" class="form-control"><strong>{{ user.email }}</strong></span>
+                                {{ form.email }}
+                                <button type="button" class="btn btn-secondary" id="change-email-btn">Edit</button>
+                            </div>
+                            {% if form.email.errors %}
+                            <div class="alert alert-danger">
+                                {{ form.email.errors }}
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username</label>
+                            <div class="input-group">
+                                <span id="username-display" class="form-control"><strong>{{ user.username }}
+                                    </strong></span>
+                                {{ form.username }}
+                                <button type="button" class="btn btn-secondary" id="change-username-btn">Edit</button>
+                            </div>
+                            {% if form.username.errors %}
+                            <div class="alert alert-danger">
+                                {{ form.username.errors }}
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="mb-3">
+                            <label for="bio" class="form-label">Bio</label>
+                            <div class="input-group">
+                                <span id="bio-display" class="form-control"><strong>{{ user.profile.bio }}
+                                    </strong></span>
+                                {{ form.bio }}
+                                <button type="button" class="btn btn-secondary" id="change-bio-btn">Edit</button>
+                            </div>
+                            {% if form.bio.errors %}
+                            <div class="alert alert-danger">
+                                {{ form.bio.errors }}
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="mb-3">
+                            <label for="profile_pic" class="form-label">Profile Picture</label>
+                            {{ form.profile_pic }}
+                            {% if form.profile_pic.errors %}
+                            <div class="alert alert-danger">
+                                {{ form.profile_pic.errors }}
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="list-group mt-3">
+                <a href="{% url 'change_password' user.id %}" class="btn btn-warning btn-lg mb-2">Change Password</a>
+                <a href="{% url 'delete_account' user.id %}" class="btn btn-danger btn-lg">Delete Account</a>
+            </div>
+        </div>
     </div>
 </div>
-{% endblock %}</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/edit_profile.js' %}"></script>
+{% endblock scripts %}
