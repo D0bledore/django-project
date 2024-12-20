@@ -5,8 +5,7 @@ from storages.backends.s3boto3 import S3Boto3Storage
 
 User = get_user_model()
 
-
-# Create your models here.
+# Define a model for BlogPost instances
 class BlogPost(models.Model):
     title = models.CharField(max_length=100)
     content = models.TextField()
@@ -20,8 +19,10 @@ class BlogPost(models.Model):
     image = models.ImageField(storage=S3Boto3Storage(), upload_to='media/', blank=True)
     location = models.CharField(max_length=100)
 
+    # Define a string representation for BlogPost instances
     def __str__(self):
         return self.title
-
+    
+    # Define the database table for the model
     class Meta:
         db_table = 'blog_posts'

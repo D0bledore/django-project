@@ -3,6 +3,7 @@ from .models import BlogPost
 from django.core.exceptions import ValidationError
 import re
 
+# Define a form for creating and updating BlogPost instances
 class BlogPostForm(forms.ModelForm):
     class Meta:
         model = BlogPost
@@ -18,12 +19,14 @@ class BlogPostForm(forms.ModelForm):
             'image': forms.FileInput(attrs={'class': 'form-control', 'required': False}),
         }
 
+    # Validate the title field
     def clean_title(self):
         title = self.cleaned_data.get('title')
         if len(title) > 100:
             raise ValidationError("Title cannot exceed 100 characters.")
         return title
 
+    # Validate the price field
     def clean_price(self):
         price = self.cleaned_data.get('price')
         if price <= 0:
@@ -36,6 +39,7 @@ class BlogPostForm(forms.ModelForm):
             raise ValidationError("Price cannot exceed 10 characters.")
         return price
 
+    # Validate the image field
     def clean_image(self):
         image = self.cleaned_data.get('image')
         if image:

@@ -7,17 +7,17 @@ from .models import BlogPost
 from .forms import BlogPostForm
 from accounts.models import CustomUser
 
-
+# View to render the blog index page
 def blog_index(request):
     return render(request, 'blog/blog.html')
 
-
+# View to display all blog posts
 def blog_post(request):
     posts = BlogPost.objects.all()
     content = {"posts": posts}
     return render(request, 'blog/posts.html', content)
 
-
+# View to create a new blog post (requires login)
 @login_required
 def create_post(request):
     if request.method == 'POST':
@@ -36,7 +36,7 @@ def create_post(request):
         form = BlogPostForm()
     return render(request, 'blog/create_post.html', {'form': form})
 
-
+# View to display the details of a specific blog post
 def post_detail(request, post_id):
     try:
         post = BlogPost.objects.get(pk=post_id)
@@ -45,7 +45,7 @@ def post_detail(request, post_id):
         messages.error(request, "The requested blog post does not exist.")
         return redirect('posts')  
 
-
+# View to edit an existing blog post (requires login)
 @login_required
 def edit_post(request, post_id):
     post = get_object_or_404(BlogPost, id=post_id)
@@ -66,7 +66,7 @@ def edit_post(request, post_id):
 
     return render(request, 'blog/edit_post.html', {'form': form})
 
-
+# View to delete a blog post (requires login)
 @login_required
 def delete_post(request, post_id):
     post = get_object_or_404(BlogPost, id=post_id)
@@ -76,7 +76,7 @@ def delete_post(request, post_id):
         return redirect('user_posts', user_id=request.user.id)
     return render(request, 'blog/confirm_delete.html', {'post': post})
 
-
+# View to display all posts by a specific user (requires login)
 @login_required
 def view_posts(request, user_id):
     user = get_object_or_404(CustomUser, id=user_id)
