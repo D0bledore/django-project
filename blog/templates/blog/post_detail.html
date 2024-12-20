@@ -1,25 +1,28 @@
 {% extends 'base.html' %}
 
-{% block title %}{{ post.title }}{% endblock title %}
+{% block title %}Modina | {{ post.title }}{% endblock title %}
 
 {% block content %}
-<div class="container mt-4">
-    <div class="card">
+<!-- Main container for the post details -->
+<main class="container mt-4">
+    <article class="card">
         <div class="card-header">
             <h1>{{ post.title }}</h1>
         </div>
         <div class="card-body">
+            <!-- Display post image if available -->
             {% if post.image %}
-            <div class="card mb-3 border-0">
+            <figure class="card mb-3 border-0">
                 <div class="row no-gutters justify-content-center">
                     <div class="col-md-4">
                         <img src="{{ post.image.url }}" class="card-img border-0" alt="{{ post.title }}-image">
                     </div>
                 </div>
-            </div>
+            </figure>
             {% else %}
             <p>No image available</p>
             {% endif %}
+            <!-- Post details -->
             <p><strong>Category:</strong> {{ post.category }}</p>
             <p><strong>Condition:</strong> {{ post.condition }}/10</p>
             <p><strong>Price:</strong> ${{ post.price }}</p>
@@ -29,11 +32,14 @@
             <p><strong>Author:</strong> {{ post.author }}</p>
             <p><strong>Created at:</strong> {{ post.created_at }}</p>
             <p><strong>Last updated:</strong> {{ post.updated_at }}</p>
+            <!-- Edit and delete buttons for the post author -->
             {% if user == post.author %}
             <a href="{% url 'edit_post' post.id %}" class="btn btn-warning">Edit Post</a>
             <a href="{% url 'delete_post' post.id %}" class="btn btn-danger">Delete Post</a>
             {% endif %}
+            <!-- Button to go back to posts -->
+            <a href="{% url 'posts' %}" class="btn btn-secondary mt-3">Back to Posts</a>
         </div>
-    </div>
-</div>
+    </article>
+</main>
 {% endblock content %}
