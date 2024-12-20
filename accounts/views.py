@@ -7,16 +7,16 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
+
+# Get the custom user model
 CustomUser = get_user_model()
 
 # Import models and forms 
 from blog.models import BlogPost
-from blog.forms import BlogPostForm 
 from .forms import ProfileForm, CustomUserCreationForm, CustomAuthenticationForm
 from .models import Profile
-from django.http import JsonResponse
 
-
+# Custom login view using a custom authentication form
 class CustomLoginView(LoginView):
     authentication_form = CustomAuthenticationForm
     template_name = 'accounts/login.html'
@@ -25,7 +25,7 @@ class CustomLoginView(LoginView):
         response = super().form_valid(form)
         return redirect('profile', user_id=self.request.user.id)
 
-
+# User registration view
 def register(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
@@ -38,7 +38,7 @@ def register(request):
         form = CustomUserCreationForm()
     return render(request, 'accounts/register.html', {'form': form})
 
-
+# User login view
 def login_view(request):
     if request.method == 'POST':
         form = AuthenticationForm(request, data=request.POST)
@@ -50,7 +50,7 @@ def login_view(request):
         form = AuthenticationForm()
     return render(request, 'accounts/login.html', {'form': form})
 
-
+# User logout view
 def custom_logout(request):
     if request.method == 'POST':
         logout(request)
@@ -58,7 +58,7 @@ def custom_logout(request):
         return redirect('index')
     return redirect('index')
 
-
+# User profile view
 @login_required
 def profile(request, user_id):
     user = get_object_or_404(CustomUser, id=user_id)
@@ -66,7 +66,7 @@ def profile(request, user_id):
     posts = BlogPost.objects.filter(author=user)
     return render(request, 'accounts/profile.html', {'posts': posts, 'profile': profile})
 
-
+# Edit user profile view
 @login_required
 def edit_profile(request, user_id):
     user = get_object_or_404(CustomUser, id=user_id)  
@@ -87,13 +87,13 @@ def edit_profile(request, user_id):
 
     return render(request, 'accounts/edit_profile.html', {'form': form})
 
-
+# Confirm delete user profile view
 @login_required
 def confirm_delete(request, user_id):
     user = get_object_or_404(CustomUser, id=user_id)
     return render(request, 'accounts/confirm_delete.html', {'user': user})
 
-
+# Delete user profile view
 @login_required
 def delete_profile(request, user_id):
     user = get_object_or_404(CustomUser, id=user_id)
@@ -105,7 +105,7 @@ def delete_profile(request, user_id):
     
     return render(request, 'accounts/confirm_delete.html', {'user': user})
 
-
+# Change user password view
 @login_required
 def change_password(request, user_id):
     user = get_object_or_404(CustomUser, id=user_id)

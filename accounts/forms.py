@@ -1,8 +1,9 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import authenticate
 from .models import CustomUser, Profile
 
+# Form for creating a new user with custom fields
 class CustomUserCreationForm(UserCreationForm):
     email = forms.EmailField(required=True, widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email'}))
     username = forms.CharField(required=True, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username'}))
@@ -25,12 +26,14 @@ class CustomUserCreationForm(UserCreationForm):
         model = CustomUser
         fields = ("email", "username", "password1", "password2", "gender")
 
+    # Validate that the email is unique
     def clean_email(self):
         email = self.cleaned_data.get('email').lower()
         if CustomUser.objects.filter(email=email).exists():
             raise forms.ValidationError("A user with that email already exists.")
         return email
 
+    # Save the user with the cleaned data
     def save(self, commit=True):
         user = super(CustomUserCreationForm, self).save(commit=False)
         user.email = self.cleaned_data["email"].lower()
@@ -40,6 +43,7 @@ class CustomUserCreationForm(UserCreationForm):
             user.save()
         return user
 
+# Form for updating user information
 class CustomUserChangeForm(forms.ModelForm):
     email = forms.EmailField(
         required=False,
@@ -59,12 +63,14 @@ class CustomUserChangeForm(forms.ModelForm):
         model = CustomUser
         fields = ('username', 'email', 'gender')
 
+    # Validate that the email is unique
     def clean_email(self):
         email = self.cleaned_data.get('email').lower()
         if CustomUser.objects.filter(email=email).exists():
             raise forms.ValidationError("A user with that email already exists.")
         return email
 
+# Form for updating user profile information
 class ProfileForm(forms.ModelForm):
     email = forms.EmailField(
         required=False, 
@@ -92,6 +98,7 @@ class ProfileForm(forms.ModelForm):
         model = Profile
         fields = ['bio', 'profile_pic']
 
+    # Initialize the form with user data
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user', None)
         super(ProfileForm, self).__init__(*args, **kwargs)
@@ -100,6 +107,7 @@ class ProfileForm(forms.ModelForm):
             self.fields['username'].initial = user.username
             self.fields['gender'].initial = user.gender
 
+    # Validate that the email is unique
     def clean_email(self):
         email = self.cleaned_data.get('email')
         if email:
@@ -108,6 +116,7 @@ class ProfileForm(forms.ModelForm):
                 raise forms.ValidationError("A user with that email already exists.")
         return email
 
+    # Validate that the username is unique
     def clean_username(self):
         username = self.cleaned_data.get('username')
         if username:
@@ -116,6 +125,7 @@ class ProfileForm(forms.ModelForm):
                 raise forms.ValidationError("A user with that username already exists.")
         return username
 
+    # Save the profile and update the user information
     def save(self, commit=True):
         profile = super(ProfileForm, self).save(commit=False)
         user = profile.user  
@@ -131,12 +141,12 @@ class ProfileForm(forms.ModelForm):
                 profile.save()  
         return profile
 
-    
-
+# Form for authenticating users with email and password
 class CustomAuthenticationForm(AuthenticationForm):
     username = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Enter your email'}))
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Enter your password'}))
 
+    # Validate the email and password
     def clean(self):
         email = self.cleaned_data.get('username').lower()
         password = self.cleaned_data.get('password')
