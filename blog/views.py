@@ -3,8 +3,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
 # Import models and forms
-from .models import BlogPost
-from .forms import BlogPostForm
+from .models import BlogPost, Comment
+from .forms import BlogPostForm, CommentForm
 from accounts.models import CustomUser
 
 # View to render the blog index page
@@ -36,11 +36,29 @@ def create_post(request):
         form = BlogPostForm()
     return render(request, 'blog/create_post.html', {'form': form})
 
-# View to display the details of a specific blog post
+# View to display a specific blog post and its comments
 def post_detail(request, post_id):
     try:
         post = BlogPost.objects.get(pk=post_id)
-        return render(request, 'blog/post_detail.html', {'post': post})
+        comments = post.comments.filter(active=True)
+        new_comment = None
+
+        if request.method == 'POST':
+            comment_form = CommentForm(data=request.POST)
+            if comment_form.is_valid():
+                new_comment = comment_form.save(commit=False)
+                new_comment.blog_post = post
+                new_comment.author = request.user
+                new_comment.save()
+                messages.success(request, 'Your comment has been added successfully!')
+                return redirect('post_detail', post_id=post.id)
+        else:
+            comment_form = CommentForm()
+
+        return render(request, 'blog/post_detail.html', {'post': post,
+                                                         'comments': comments,
+                                                         'new_comment': new_comment,
+                                                         'comment_form': comment_form})
     except BlogPost.DoesNotExist:
         messages.error(request, "The requested blog post does not exist.")
         return redirect('posts')  
@@ -82,3 +100,4 @@ def view_posts(request, user_id):
     user = get_object_or_404(CustomUser, id=user_id)
     posts = BlogPost.objects.filter(author=user)
     return render(request, 'blog/user_posts.html', {'posts': posts, 'profile_user': user})
+
