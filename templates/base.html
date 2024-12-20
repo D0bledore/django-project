@@ -3,20 +3,28 @@
 <html lang="en">
 
 <head>
+    <!-- Meta Tags -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- Title Block -->
     <title>{% block title %}Modina Second-Hand{% endblock title %}</title>
+    
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Stylesheets -->
+    
+    <!-- Custom Stylesheets -->
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <link rel="stylesheet" href="{% static 'css/layout.css' %}">
     <link rel="stylesheet" href="{% static 'css/components.css' %}">
+    
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/favicon/favicon-32x32.png' %}">
+    
+    <!-- Additional Stylesheets Block -->
     {% block stylesheet %}
     {% endblock stylesheet %}
 </head>
-
 
 <body>
     <!-- Header and Navbar -->
@@ -83,6 +91,7 @@
         </nav>
     </header>
 
+    <!-- Messages -->
     {% if messages %}
     <div class="container mt-3 django-message">
         {% for message in messages %}
@@ -101,12 +110,14 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{% static 'js/navbar.js' %}"></script>
     <script src="{% static 'js/base.js' %}"></script>
+    
+    <!-- Additional Scripts Block -->
     {% block scripts %}
     {% endblock scripts %}
+
+    <!-- Footer -->
+    <footer class="container-fluid mt-5 text-center">
+        <p>&copy; 2024 All Rights Reserved. <a href="https://github.com/d0bledore">GitHub Page</a></p>
+    </footer>
 </body>
-
-<footer class="container-fluid mt-5 text-center">
-    <p>&copy; 2024 All Rights Reserved. <a href="https://github.com/d0bledore">GitHub Page</a></p>
-</footer>
-
 </html>
