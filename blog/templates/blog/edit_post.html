@@ -1,27 +1,30 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Edit Post{% endblock %}
+{% block title %}Modina | Edit Post{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+<!-- Main container for the content -->
+<main class="container mt-5">
+    <section class="row justify-content-center">
+        <article class="col-md-8">
             <div class="card">
                 <div class="card-header text-center">
                     <h2>Edit Post</h2>
                 </div>
                 <div class="card-body">
+                    <!-- Form for editing post -->
                     <form method="post" enctype="multipart/form-data">
                         {% csrf_token %}
                         {{ form.as_p }}
+                        <!-- Submit button -->
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-primary btn-block">Save Changes</button>
                         </div>
                     </form>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
+        </article>
+    </section>
+</main>
 {% endblock %}

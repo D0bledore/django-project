@@ -1,20 +1,26 @@
 {% extends "base.html" %}
 
+{% block title %}Modina | Confirm Account Deletion{% endblock %}
+
 {% block content %}
-<div class="container mt-5">
-    <div class="card">
+<main class="container mt-5">
+    <!-- Section for account deletion confirmation -->
+    <section class="card">
         <div class="card-header">
             Confirm Account Deletion
         </div>
         <div class="card-body">
-            <h5 class="card-title">Are you sure you want to delete your account?</h5>
+            <h1 class="card-title">Are you sure you want to delete your account?</h1>
             <p class="card-text">This action cannot be undone.</p>
+            <!-- Form to confirm account deletion -->
             <form method="post">
                 {% csrf_token %}
+                <!-- Delete button -->
                 <button type="submit" class="btn btn-danger">Delete</button>
+                <!-- Cancel button redirects to profile page -->
                 <a href="{% url 'profile' user.id %}" class="btn btn-secondary">Cancel</a>
             </form>
         </div>
-    </div>
-</div>
+    </section>
+</main>
 {% endblock %}

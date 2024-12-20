@@ -8,15 +8,18 @@
 {% endblock stylesheet %}
 
 {% block content %}
-<div class="container mt-5">
-    <div class="row">
+<!-- Main container -->
+<main class="container mt-5">
+    <section class="row">
         <div class="col-12 text-center mb-3">
             <h2>Posts by You</h2>
         </div>
         {% if posts %}
+        <!-- Posts grid -->
         <div class="row">
             {% for post in posts %}
-            <div class="col-12 col-md-6 col-lg-4 mb-4">
+            <!-- Individual post card -->
+            <article class="col-12 col-md-6 col-lg-4 mb-4">
                 <a href="{% url 'post_detail' post.id %}" class="card h-100 text-decoration-none text-dark">
                     {% if post.image %}
                     <img src="{{ post.image.url }}" class="card-img-top" alt="{{ post.title }}">
@@ -26,18 +29,19 @@
                         <p class="card-text"><small class="text-muted">Price: ${{ post.price }}</small></p>
                     </div>
                 </a>
-            </div>
+            </article>
             {% endfor %}
         </div>
         {% else %}
+        <!-- Message when no posts are available -->
         <p>{{ user.username }} has not posted anything yet.</p>
+        <!-- Button to create a new post -->
         <div class="row justify-content-center mt-4 p-2">
             <div class="col-12 text-center">
                 <a href="{% url 'create_post' %}" class="btn btn-primary btn-lg">Create New Post</a>
             </div>
         </div>
         {% endif %}
-    </div>
-</div>
-</div>
+    </section>
+</main>
 {% endblock content %}

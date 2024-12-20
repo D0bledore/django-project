@@ -1,14 +1,18 @@
 {% extends 'base.html' %}
 
+{% block title %}Modina | Register{% endblock %}
+
 {% block content %}
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
+<main class="container mt-5">
+    <section class="row justify-content-center">
+        <article class="col-md-6">
+            <!-- Card for registration form -->
             <div class="card">
                 <div class="card-header text-center">
                     <h2>Register</h2>
                 </div>
                 <div class="card-body">
+                    <!-- Registration form -->
                     <form method="post">
                         {% csrf_token %}
                         {% for field in form %}
@@ -23,16 +27,18 @@
                                 {% endfor %}
                             </div>
                         {% endfor %} 
+                        <!-- Submit button -->
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-primary btn-block">Register</button>
                         </div>
                     </form>
+                    <!-- Link to login page -->
                     <div class="text-center mt-3">
                         <p>Already have an account? <a href="{% url 'login' %}">Log in</a></p>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
+        </article>
+    </section>
+</main>
 {% endblock %}

@@ -3,14 +3,16 @@
 {% block title %}Modina | Your Profile{% endblock %}
 
 {% block stylesheet %} 
+<!-- Include Font Awesome CSS for icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
 {% endblock stylesheet %}
 
 {% block content %}
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+<main class="container mt-5">
+    <section class="row justify-content-center">
+        <article class="col-md-8">
+            <!-- Welcome Card -->
             <div class="card border-primary mb-3">
                 <div class="card-header text-center">
                     <h1 class="display-4">Welcome, {{ user.username }}!</h1>
@@ -20,6 +22,7 @@
                 </div>
             </div>
 
+            <!-- Profile Details Card -->
             <div class="card border-secondary mb-3">
                 <div class="card-header">
                     <h2 class="h4">Profile Details</h2>
@@ -52,6 +55,7 @@
                 </div>
             </div>
 
+            <!-- Action Buttons Card -->
             <div class="card border-info mb-3">
                 <div class="card-body text-center">
                     <a href="{% url 'edit_profile' user.id %}" class="btn btn-outline-secondary mb-2">
@@ -71,7 +75,7 @@
                     </form>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
+        </article>
+    </section>
+</main>
 {% endblock %}

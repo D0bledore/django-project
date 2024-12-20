@@ -1,19 +1,20 @@
 {% extends 'base.html' %}
 {% load static %}
 
-
 {% block title %}Modina | Profile Settings{% endblock %}
 
 {% block content %}
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+<main class="container mt-5">
+    <section class="row justify-content-center">
+        <article class="col-md-8">
+            <!-- Profile Edit Card -->
             <div class="card shadow-lg">
                 <div class="card-header bg-primary text-white text-center">
                     <h2>Edit Profile</h2>
                 </div>
                 <div class="card-body">
+                    <!-- Profile Edit Form -->
                     <form method="post" enctype="multipart/form-data">
                         {% csrf_token %}
                         {% if form.non_field_errors %}
@@ -21,6 +22,7 @@
                             {{ form.non_field_errors }}
                         </div>
                         {% endif %}
+                        <!-- Email Field -->
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
                             <div class="input-group">
@@ -34,11 +36,11 @@
                             </div>
                             {% endif %}
                         </div>
+                        <!-- Username Field -->
                         <div class="mb-3">
                             <label for="username" class="form-label">Username</label>
                             <div class="input-group">
-                                <span id="username-display" class="form-control"><strong>{{ user.username }}
-                                    </strong></span>
+                                <span id="username-display" class="form-control"><strong>{{ user.username }}</strong></span>
                                 {{ form.username }}
                                 <button type="button" class="btn btn-secondary" id="change-username-btn">Edit</button>
                             </div>
@@ -48,11 +50,11 @@
                             </div>
                             {% endif %}
                         </div>
+                        <!-- Bio Field -->
                         <div class="mb-3">
                             <label for="bio" class="form-label">Bio</label>
                             <div class="input-group">
-                                <span id="bio-display" class="form-control"><strong>{{ user.profile.bio }}
-                                    </strong></span>
+                                <span id="bio-display" class="form-control"><strong>{{ user.profile.bio }}</strong></span>
                                 {{ form.bio }}
                                 <button type="button" class="btn btn-secondary" id="change-bio-btn">Edit</button>
                             </div>
@@ -62,6 +64,7 @@
                             </div>
                             {% endif %}
                         </div>
+                        <!-- Profile Picture Field -->
                         <div class="mb-3">
                             <label for="profile_pic" class="form-label">Profile Picture</label>
                             {{ form.profile_pic }}
@@ -71,19 +74,21 @@
                             </div>
                             {% endif %}
                         </div>
+                        <!-- Save Changes Button -->
                         <div class="d-grid">
                             <button type="submit" class="btn btn-primary btn-lg">Save Changes</button>
                         </div>
                     </form>
                 </div>
             </div>
-            <div class="list-group mt-3">
+            <!-- Additional Actions -->
+            <nav class="list-group mt-3">
                 <a href="{% url 'change_password' user.id %}" class="btn btn-warning btn-lg mb-2">Change Password</a>
                 <a href="{% url 'delete_account' user.id %}" class="btn btn-danger btn-lg">Delete Account</a>
-            </div>
-        </div>
-    </div>
-</div>
+            </nav>
+        </article>
+    </section>
+</main>
 {% endblock %}
 
 {% block scripts %}
