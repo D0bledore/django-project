@@ -1,5 +1,5 @@
 from django import forms
-from .models import BlogPost
+from .models import BlogPost, Comment
 from django.core.exceptions import ValidationError
 import re
 
@@ -47,3 +47,18 @@ class BlogPostForm(forms.ModelForm):
             if image.size > 5 * 1024 * 1024:  # 5MB limit
                 raise forms.ValidationError("Image file too large ( > 5MB )")
         return image
+    
+# Define a form for creating and updating comments
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = [ 'content']
+        widgets = {
+            'content': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Enter your comment'}),
+        }
+    # Validate the content field
+    def clean_content(self):
+        content = self.cleaned_data.get('content')
+        if len(content) > 500:
+            raise ValidationError("Comment cannot exceed 500 characters.")
+        return content
