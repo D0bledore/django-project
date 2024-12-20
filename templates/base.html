@@ -40,7 +40,7 @@
                     <!-- Left (phone) Logo -->
                     <a class="navbar-brand"
                         href="{% if user.is_authenticated %}{% url 'profile' request.user.id %}{% else %}{% url 'login' %}{% endif %}"
-                        title="Login to account">
+                        title="{% if user.is_authenticated %}Go to Profile{% else %}Login to account{% endif %}">
                         <img src="{% if user.is_authenticated %}{% if request.user.gender == 'F' %}{% static 'images/avatar/female_avatar.svg' %}{% else %}{% static 'images/avatar/male_avatar.svg' %}{% endif %}{% else %}{% static 'images/logo/logo.png' %}{% endif %}"
                             alt="logo" class="logo-img">
                     </a>
