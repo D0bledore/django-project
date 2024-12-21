@@ -186,7 +186,9 @@ class CustomAuthenticationForm(AuthenticationForm):
 
         if username and password:
             # Authenticate the user
-            self.user_cache = authenticate(self.request, username=username.lower(), password=password)
+            self.user_cache = authenticate(self.request,
+                                           username=username.lower(),
+                                           password=password)
             if self.user_cache is None:
                 # Raise a validation error if authentication fails
                 raise forms.ValidationError(

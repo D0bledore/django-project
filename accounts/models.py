@@ -22,7 +22,7 @@ class CustomUser(AbstractUser):
         upload_to='media/profile_pics/', blank=True, null=True)
     gender = models.CharField(
         max_length=1, choices=Gender.choices, blank=True, null=True)
-    
+
     def save(self, *args, **kwargs):
         # Normalize email before saving
         if self.email:

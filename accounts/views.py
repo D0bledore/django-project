@@ -48,12 +48,12 @@ def login_view(request):
     if request.method == 'POST':
         form = CustomAuthenticationForm(request, data=request.POST)
         if form.is_valid():
-            user = form.get_user()  
-            login(request, user)   
+            user = form.get_user()
+            login(request, user)
             return redirect('home')
     else:
         form = CustomAuthenticationForm()
-    
+
     return render(request, 'login.html', {'form': form})
 
 
@@ -71,7 +71,8 @@ def custom_logout(request):
 def profile(request, user_id):
     user = get_object_or_404(CustomUser, id=user_id)
     if request.user != user:
-        messages.error(request, 'You do not have permission to view this profile.')
+        messages.error(request, 'You do not have permission to view this '
+                                'profile.')
         return redirect('index')
     profile = Profile.objects.get_or_create(user=user)[0]
     posts = BlogPost.objects.filter(author=user)

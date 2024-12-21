@@ -84,11 +84,13 @@ def edit_post(request, post_id):
         form = BlogPostForm(request.POST, request.FILES, instance=post)
         if form.is_valid():
             try:
-                form.save()  
-                messages.success(request, 'Your post has been updated successfully!')
+                form.save()
+                messages.success(request, 'Your post has been updated '
+                                          'successfully!')
                 return redirect('post_detail', post_id=post.id)
             except Exception as e:
-                messages.error(request, f'There was an error uploading your image: {e}')
+                messages.error(request,
+                               f'There was an error uploading your image: {e}')
         else:
             messages.error(request, 'Please correct the errors below.')
     else:
