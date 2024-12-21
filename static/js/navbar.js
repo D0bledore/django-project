@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
         body.classList.toggle('navbar-open');
         navbarToggler.setAttribute('aria-expanded', isExpanded);
         navbarToggler.classList.toggle('collapsed');
-    };
+    }
 
     navbarToggler.addEventListener('click', (event) => {
         event.stopPropagation();
