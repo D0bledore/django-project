@@ -96,9 +96,11 @@
     <!-- Messages -->
     {% if messages %}
     {% for message in messages %}
-      <div class="alert {{ message.tags }} text-center" role="alert">
+    <div class="container mt-3 django-message">
+      <div class="alert django-message {{ message.tags }} text-center" role="alert">
         {{ message }}
       </div>
+    </div>
     {% endfor %}
   {% endif %}
 
