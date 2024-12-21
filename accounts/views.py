@@ -46,14 +46,15 @@ def register(request):
 # User login view
 def login_view(request):
     if request.method == 'POST':
-        form = AuthenticationForm(request, data=request.POST)
+        form = CustomAuthenticationForm(request, data=request.POST)
         if form.is_valid():
-            user = form.get_user()
-            login(request, user)
-            return redirect('profile')
+            user = form.get_user()  
+            login(request, user)   
+            return redirect('home')
     else:
-        form = AuthenticationForm()
-    return render(request, 'accounts/login.html', {'form': form})
+        form = CustomAuthenticationForm()
+    
+    return render(request, 'login.html', {'form': form})
 
 
 # User logout view

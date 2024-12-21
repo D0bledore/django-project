@@ -171,22 +171,28 @@ class ProfileForm(forms.ModelForm):
 
 # Form for authenticating users with email and password
 class CustomAuthenticationForm(AuthenticationForm):
+    error_messages = {
+        'invalid_login': 'Invalid email or password. Please try again.'}
+
     username = forms.EmailField(widget=forms.EmailInput(
         attrs={'class': 'form-control', 'placeholder': 'Enter your email'}))
     password = forms.CharField(widget=forms.PasswordInput(
         attrs={'class': 'form-control', 'placeholder': 'Enter your password'}))
 
-    # Validate the email and password
     def clean(self):
-        email = self.cleaned_data.get('username').lower()
+        # Get username (email) and password from the form
+        username = self.cleaned_data.get('username')
         password = self.cleaned_data.get('password')
 
-        if email and password:
-            self.user_cache = authenticate(
-                self.request, username=email, password=password)
+        if username and password:
+            # Authenticate the user
+            self.user_cache = authenticate(self.request, username=username.lower(), password=password)
             if self.user_cache is None:
-                raise forms.ValidationError("Invalid email or password. "
-                                            "Please try again.")
+                # Raise a validation error if authentication fails
+                raise forms.ValidationError(
+                    self.error_messages['invalid_login'],
+                    code='invalid_login',
+                )
             else:
                 self.confirm_login_allowed(self.user_cache)
 
