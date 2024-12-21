@@ -70,7 +70,10 @@ def custom_logout(request):
 @login_required
 def profile(request, user_id):
     user = get_object_or_404(CustomUser, id=user_id)
-    profile, created = Profile.objects.get_or_create(user=user)
+    if request.user != user:
+        messages.error(request, 'You do not have permission to view this profile.')
+        return redirect('index')
+    profile = Profile.objects.get_or_create(user=user)[0]
     posts = BlogPost.objects.filter(author=user)
     return render(request, 'accounts/profile.html',
                   {'posts': posts, 'profile': profile})
