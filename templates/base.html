@@ -95,14 +95,12 @@
 
     <!-- Messages -->
     {% if messages %}
-    <div class="container mt-3 django-message">
-        {% for message in messages %}
-        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %}" role="alert">
-            {{ message }}
-        </div>
-        {% endfor %}
-    </div>
-    {% endif %}
+    {% for message in messages %}
+      <div class="alert {{ message.tags }} text-center" role="alert">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
 
     <!-- Content Block -->
     {% block content %}

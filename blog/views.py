@@ -76,17 +76,19 @@ def post_detail(request, post_id):
 def edit_post(request, post_id):
     post = get_object_or_404(BlogPost, id=post_id)
 
+    if post.author != request.user:
+        messages.error(request, 'You are not authorized to edit this post.')
+        return redirect('post_detail', post_id=post.id)
+
     if request.method == 'POST':
         form = BlogPostForm(request.POST, request.FILES, instance=post)
         if form.is_valid():
             try:
-                form.save()  # Save changes including new image
-                messages.success(request, 'Your post has been'
-                                          ' updated successfully!')
+                form.save()  
+                messages.success(request, 'Your post has been updated successfully!')
                 return redirect('post_detail', post_id=post.id)
             except Exception as e:
-                messages.error(request, 'There was an error uploading '
-                                        'your image.')
+                messages.error(request, f'There was an error uploading your image: {e}')
         else:
             messages.error(request, 'Please correct the errors below.')
     else:
