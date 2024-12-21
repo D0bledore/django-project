@@ -1,4 +1,4 @@
-from django.urls import path 
+from django.urls import path
 
 # Import views
 from . import views
@@ -11,5 +11,6 @@ urlpatterns = [
     path('posts/<int:post_id>/edit/', views.edit_post, name='edit_post'),
     path('posts/<int:post_id>/delete/', views.delete_post, name='delete_post'),
     path('profile/<int:user_id>/posts', views.view_posts, name='user_posts'),
-    path('posts/<int:post_id>/add_comment/', views.post_detail, name='add_comment')
+    path('posts/<int:post_id>/add_comment/',
+         views.post_detail, name='add_comment')
 ]

@@ -3,20 +3,38 @@ from .models import BlogPost, Comment
 from django.core.exceptions import ValidationError
 import re
 
+
 # Define a form for creating and updating BlogPost instances
 class BlogPostForm(forms.ModelForm):
     class Meta:
         model = BlogPost
-        fields = ['title', 'content', 'category', 'condition', 'price', 'sale_handling', 'location', 'image']
+        fields = ['title', 'content', 'category', 'condition',
+                  'price', 'sale_handling', 'location', 'image']
         widgets = {
-            'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter the title of your post'}),
-            'content': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Enter the content of your post'}),
-            'category': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter the category'}),
-            'condition': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Enter the condition (1-10)', 'type': 'range', 'min': '1', 'max': '10'}),
-            'price': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Enter the price', 'max_length': 10}),
-            'sale_handling': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'For example: Shipping, Pickup/Meetup'}),
-            'location': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter the location'}),
-            'image': forms.FileInput(attrs={'class': 'form-control', 'required': False}),
+            'title': forms.TextInput(
+                attrs={'class': 'form-control',
+                       'placeholder': 'Enter the title of your post'}),
+            'content': forms.Textarea(
+                attrs={'class': 'form-control',
+                       'placeholder': 'Enter the content of your post'}),
+            'category': forms.TextInput(
+                attrs={'class': 'form-control',
+                       'placeholder': 'Enter the category'}),
+            'condition': forms.NumberInput(
+                attrs={'class': 'form-control',
+                       'placeholder': 'Enter the condition (1-10)',
+                       'type': 'range', 'min': '1', 'max': '10'}),
+            'price': forms.NumberInput(
+                attrs={'class': 'form-control',
+                       'placeholder': 'Enter the price', 'max_length': 10}),
+            'sale_handling': forms.TextInput(
+                attrs={'class': 'form-control',
+                       'placeholder': 'For example: Shipping, Pickup/Meetup'}),
+            'location': forms.TextInput(
+                attrs={'class': 'form-control',
+                       'placeholder': 'Enter the location'}),
+            'image': forms.FileInput(
+                attrs={'class': 'form-control', 'required': False}),
         }
 
     # Validate the title field
@@ -47,15 +65,19 @@ class BlogPostForm(forms.ModelForm):
             if image.size > 5 * 1024 * 1024:  # 5MB limit
                 raise forms.ValidationError("Image file too large ( > 5MB )")
         return image
-    
+
+
 # Define a form for creating and updating comments
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
-        fields = [ 'content']
+        fields = ['content']
         widgets = {
-            'content': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Enter your comment'}),
+            'content': forms.Textarea(
+                attrs={'class': 'form-control',
+                       'placeholder': 'Enter your comment'}),
         }
+
     # Validate the content field
     def clean_content(self):
         content = self.cleaned_data.get('content')

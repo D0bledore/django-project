@@ -3,18 +3,31 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import authenticate
 from .models import CustomUser, Profile
 
+
 # Form for creating a new user with custom fields
 class CustomUserCreationForm(UserCreationForm):
-    email = forms.EmailField(required=True, widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email'}))
-    username = forms.CharField(required=True, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username'}))
+    email = forms.EmailField(
+        required=True,
+        widget=forms.EmailInput(
+            attrs={'class': 'form-control', 'placeholder': 'Email'}))
+    username = forms.CharField(
+        required=True,
+        widget=forms.TextInput(
+            attrs={'class': 'form-control', 'placeholder': 'Username'}))
     password1 = forms.CharField(
         label="Password",
-        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password'}),
-        help_text="Your password must contain at least 8 characters, including letters and numbers."
+        widget=forms.PasswordInput(
+            attrs={'class': 'form-control', 'placeholder': 'Password'}),
+        help_text=(
+            "Your password must contain at least 8 characters, "
+            "including letters and numbers."
+        )
     )
     password2 = forms.CharField(
         label="Confirm Password",
-        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Confirm Password'}),
+        widget=forms.PasswordInput(
+            attrs={'class': 'form-control', 'placeholder': 'Confirm Password'}
+        ),
         help_text="Enter the same password as before, for verification."
     )
     gender = forms.ChoiceField(
@@ -30,7 +43,8 @@ class CustomUserCreationForm(UserCreationForm):
     def clean_email(self):
         email = self.cleaned_data.get('email').lower()
         if CustomUser.objects.filter(email=email).exists():
-            raise forms.ValidationError("A user with that email already exists.")
+            raise forms.ValidationError("A user with that email already"
+                                        "exists.")
         return email
 
     # Save the user with the cleaned data
@@ -43,15 +57,18 @@ class CustomUserCreationForm(UserCreationForm):
             user.save()
         return user
 
+
 # Form for updating user information
 class CustomUserChangeForm(forms.ModelForm):
     email = forms.EmailField(
         required=False,
-        widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email'})
+        widget=forms.EmailInput(
+            attrs={'class': 'form-control', 'placeholder': 'Email'})
     )
     username = forms.CharField(
         required=False,
-        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username'})
+        widget=forms.TextInput(
+            attrs={'class': 'form-control', 'placeholder': 'Username'})
     )
     gender = forms.ChoiceField(
         choices=CustomUser.Gender.choices,
@@ -67,30 +84,35 @@ class CustomUserChangeForm(forms.ModelForm):
     def clean_email(self):
         email = self.cleaned_data.get('email').lower()
         if CustomUser.objects.filter(email=email).exists():
-            raise forms.ValidationError("A user with that email already exists.")
+            raise forms.ValidationError("A user with that email already "
+                                        "exists.")
         return email
+
 
 # Form for updating user profile information
 class ProfileForm(forms.ModelForm):
     email = forms.EmailField(
-        required=False, 
-        widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email'})
+        required=False,
+        widget=forms.EmailInput(
+            attrs={'class': 'form-control', 'placeholder': 'Email'})
     )
     username = forms.CharField(
-        required=False, 
-        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username'})
+        required=False,
+        widget=forms.TextInput(
+            attrs={'class': 'form-control', 'placeholder': 'Username'})
     )
     gender = forms.ChoiceField(
-        choices=CustomUser.Gender.choices, 
-        required=False, 
+        choices=CustomUser.Gender.choices,
+        required=False,
         widget=forms.Select(attrs={'class': 'form-control'})
     )
     bio = forms.CharField(
-        required=False, 
-        widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'placeholder': 'Bio'})
+        required=False,
+        widget=forms.Textarea(
+            attrs={'class': 'form-control', 'rows': 3, 'placeholder': 'Bio'})
     )
     profile_pic = forms.ImageField(
-        required=False, 
+        required=False,
         widget=forms.FileInput(attrs={'class': 'form-control'})
     )
 
@@ -112,8 +134,11 @@ class ProfileForm(forms.ModelForm):
         email = self.cleaned_data.get('email')
         if email:
             email = email.lower()
-            if CustomUser.objects.filter(email__iexact=email).exclude(id=self.instance.user.id).exists():
-                raise forms.ValidationError("A user with that email already exists.")
+            if CustomUser.objects.filter(
+                    email__iexact=email).exclude(
+                        id=self.instance.user.id).exists():
+                raise forms.ValidationError("A user with that email already "
+                                            "exists.")
         return email
 
     # Validate that the username is unique
@@ -121,14 +146,16 @@ class ProfileForm(forms.ModelForm):
         username = self.cleaned_data.get('username')
         if username:
             username = username.lower()
-            if CustomUser.objects.filter(username__iexact=username).exclude(id=self.instance.user.id).exists():
-                raise forms.ValidationError("A user with that username already exists.")
+            if CustomUser.objects.filter(username__iexact=username).exclude(
+                    id=self.instance.user.id).exists():
+                raise forms.ValidationError("A user with that username already"
+                                            " exists.")
         return username
 
     # Save the profile and update the user information
     def save(self, commit=True):
         profile = super(ProfileForm, self).save(commit=False)
-        user = profile.user  
+        user = profile.user
         if user:
             if self.cleaned_data['email']:
                 user.email = self.cleaned_data['email'].lower()
@@ -138,13 +165,16 @@ class ProfileForm(forms.ModelForm):
                 user.gender = self.cleaned_data['gender']
             if commit:
                 user.save()
-                profile.save()  
+                profile.save()
         return profile
+
 
 # Form for authenticating users with email and password
 class CustomAuthenticationForm(AuthenticationForm):
-    username = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Enter your email'}))
-    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Enter your password'}))
+    username = forms.EmailField(widget=forms.EmailInput(
+        attrs={'class': 'form-control', 'placeholder': 'Enter your email'}))
+    password = forms.CharField(widget=forms.PasswordInput(
+        attrs={'class': 'form-control', 'placeholder': 'Enter your password'}))
 
     # Validate the email and password
     def clean(self):
@@ -152,9 +182,11 @@ class CustomAuthenticationForm(AuthenticationForm):
         password = self.cleaned_data.get('password')
 
         if email and password:
-            self.user_cache = authenticate(self.request, username=email, password=password)
+            self.user_cache = authenticate(
+                self.request, username=email, password=password)
             if self.user_cache is None:
-                raise forms.ValidationError("Invalid email or password. Please try again.")
+                raise forms.ValidationError("Invalid email or password. "
+                                            "Please try again.")
             else:
                 self.confirm_login_allowed(self.user_cache)
 
