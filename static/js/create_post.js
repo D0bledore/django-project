@@ -50,7 +50,7 @@ function validateImage(file) {
         return 'Image file too large (> 5MB)';
     }
     if (!allowedTypes.includes(file.type)) {
-        return 'Unsupported file type';
+        return 'Unsupported file type. (JPEG, PNG, GIF only)';
     }
     return null;
 }
@@ -59,8 +59,10 @@ function validateImage(file) {
 function previewImages() {
     const imagePreview = document.getElementById('image-preview');
     const imageUpload = document.getElementById('id_image');
-    
+
     let errorDisplay = document.querySelector('.alert.alert-danger');
+
+    errorDisplay.style.display = 'none';
     
     if (!errorDisplay) {
         errorDisplay = document.createElement('div');
@@ -150,7 +152,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // Add event listener to enforce maximum length of 8 digits for price input
+    // Add event listener to enforce maximum length of 8 digits for price input (must be 8 + 2 decimal places)
     const priceInput = document.getElementById('id_price');
     if (priceInput) {
         priceInput.addEventListener('input', function () {
