@@ -172,8 +172,6 @@ CSS `:root` variables are used to easily update the global colour scheme by chan
 
 **Create a Post**
 
-    ![screenshot](documentation/features/posts-create.png)
-
 - Authenticated users can create a post. The post creation feature offers a step-by-step process with easy navigation (next & previous buttons).
 
     ![screenshot](documentation/features/posts-create_step_content.png)
@@ -204,9 +202,9 @@ Currently, users cannot interact privately with other users or see other profile
 
 Currently, the site owner has no benefit from collecting user data because it can be completely made up. Through email verification, the site can ensure that the email is legitimate and start sending updates and benefits to users.
 
-#### Post Creation
+#### Password Reset
 
-The post creation process can be updated in many ways. Here are some current ideas for the future:
+Currently, users cannot reset their password if they forget it. In the future, users will be able to receive an email with a reset code to reset their password.
 
 ## Tools & Technologies Used
 
