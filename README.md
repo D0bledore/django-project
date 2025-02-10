@@ -267,58 +267,73 @@ To obtain your own Amazon S3 API key, create an account and log in.
 
 Ensure that you have installed `boto3` and `django-storages`, which are essential for interacting with AWS S3. These should be included in your requirements.txt file.
 
-### Heroku Deployment
+### Render Deployment
 
-This project uses [Heroku](https://www.heroku.com), a platform as a service (PaaS) that enables developers to build, run, and operate applications entirely in the cloud.
+This project uses [Render](https://www.render.com), a platform as a service (PaaS) that enables developers to build, run, and operate applications entirely in the cloud.
 
-Deployment steps are as follows, after account setup:
+Follow these steps after setting up your Render account:
 
-- Select **New** in the top-right corner of your Heroku Dashboard, and select **Create new app** from the dropdown menu.
-- Your app name must be unique, and then choose a region closest to you (EU or USA), and finally, select **Create App**.
-- From the new app **Settings**, click **Reveal Config Vars**, and set your environment variables.
+#### 1. Create a New Web Service
 
-> [!IMPORTANT]  
-> This is a sample only; you would replace the values with your own if cloning/forking my repository.
+1. Click the **"New +"** button in the top-right corner of your Render dashboard.
+2. Select **"Web Service"** from the dropdown menu.
+
+#### 2. Connect Your Repository
+
+1. Choose your Git provider (GitHub, GitLab, or Bitbucket).
+2. Select the repository containing your project.
+3. Choose the branch you want to deploy (e.g., `main` or `master`).
+
+#### 3. Configure Your Service
+
+1. Enter a unique name for your service.
+2. Select the region closest to your users.
+3. Set the following configuration:
+
+| Setting | Value |
+|---------|-------|
+| Environment | Python |
+| Build Command | `pip install -r requirements.txt` |
+| Start Command | `gunicorn app_name.wsgi` |
+
+Replace `app_name` with your primary Django app name (where `settings.py` is located).
+
+#### 4. Add Environment Variables
+
+In the "Environment Variables" section, add the following:
 
 | Key | Value |
-| --- | --- |
-| `DATABASE_URL` | user's own value |
-| `AWS_ACCESS_KEY_ID` | user's own value |
-| `AWS_SECRET_ACCESS_KEY` | user's own value |
-| `AWS_STORAGE_BUCKET_NAME` | user's own value | 
+|-----|-------|
+| DATABASE_URL | your_database_url |
+| AWS_ACCESS_KEY_ID | your_aws_access_key |
+| AWS_SECRET_ACCESS_KEY | your_aws_secret_key |
+| AWS_STORAGE_BUCKET_NAME | your_s3_bucket_name |
 
-Heroku needs two additional files in order to deploy properly.
+Replace placeholder values with your actual credentials.
 
-- requirements.txt
-- Procfile
+#### 5. Deploy Your Application
 
-You can install this project's **requirements** (where applicable) using:
+1. Review your settings and click **"Create Web Service"**.
+2. Render will automatically build and deploy your application.
 
-- `pip3 install -r requirements.txt`
+#### 6. Automatic Deployments
 
-If you have your own packages that have been installed, then the requirements file needs updated using:
+Render automatically deploys your app when you push changes to your connected Git repository.
 
-- `pip3 freeze --local > requirements.txt`
+#### Important Notes
 
-The **Procfile** can be created with the following command:
+1. Ensure your project includes a `requirements.txt` file:
+   ```
+   pip freeze > requirements.txt
+   ```
 
-- `echo web: gunicorn app_name.wsgi > Procfile`
-- *replace **app_name** with the name of your primary Django app name; the folder where settings.py is located*
+2. For a specific Python version, include a `runtime.txt` file:
+   ```
+   python-3.x.x
+   ```
 
-For Heroku deployment, follow these steps to connect your own GitHub repository to the newly created app:
+Render handles HTTPS, scaling, and logging automatically, making it an excellent alternative to Heroku for modern web applications.
 
-Either:
-
-- Select **Automatic Deployment** from the Heroku app.
-
-Or:
-
-- In the Terminal/CLI, connect to Heroku using this command: `heroku login -i`
-- Set the remote for Heroku: `heroku git:remote -a app_name` (replace *app_name* with your app name)
-- After performing the standard Git `add`, `commit`, and `push` to GitHub, you can now type:
-	- `git push heroku main`
-
-The project should now be connected and deployed to Heroku!
 
 ### Local Deployment
 
